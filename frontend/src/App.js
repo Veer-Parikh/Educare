@@ -10,6 +10,7 @@ import LoginTeacher from "./LoginTeacher";
 import SignUpTeacher from "./SignUpTeacher";
 import SignUpStudent from "./SignUpStudent";
 import Home from "./Home";
+import StudentDashboard from "./StudentDashboard";
 
 function App() {
 
@@ -19,14 +20,15 @@ function App() {
        <ThemeProvider theme={fontcolorTheme}>
          <Router> 
           <Routes>
-  
-            <Route path="/" element={<Home />} />
+          <Route path="/teacherDashboard" element={<TeacherDashboard />} />
+          <Route path="/studentDashboard" element={<StudentDashboard />} />
              <Route path="/addstudents" element={<AddStudents />} />
             {/* <Route path="/addneworders" element={<AddNewOrder />} /> */}
             <Route path="/loginTeacher" element={<LoginTeacher/>} />
             <Route path="/signupTeacher" element={<SignUpTeacher/>} />
             <Route path="/loginStudent" element={<LoginStudent/>} />
             <Route path="/signupStudent" element={<SignUpStudent/>} />
+            <Route path="/" element={<Home />} />
           </Routes>
         </Router>
         </ThemeProvider>

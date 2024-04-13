@@ -4,7 +4,8 @@ import Container from "@mui/material/Container";
 import { ThemeProvider } from "@mui/material/styles";
 import fontcolorTheme from "./fontColorTheme";
 import { Button, Typography, FormControl, FormLabel, Input, Link } from "@mui/material";
-import logo from "./images/logo.png"
+import logo from "./images/educare.png";
+import signup from "./images/signup.png";
 
 
 function SignUpTeacher() {
@@ -33,7 +34,7 @@ function SignUpTeacher() {
                     p: {
                         xs: '0%'
                     },
-                    bgcolor: '#79A8A9',  // corrected color name
+                    bgcolor: '#000000',  // corrected color name
                 }}>
 
                     <Container sx={{
@@ -45,7 +46,7 @@ function SignUpTeacher() {
                         height: '100%', // Ensure the container takes up the full height
                         overflow: 'hidden' // Hide any overflow content      
                     }}>
-                        {/* <img src={sewing_machine} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} alt="Sewing Machine" /> */}
+                       <img src={signup} style={{ maxWidth: '100%', maxHeight:'100%', objectFit: 'contain' }} alt="Sewing Machine" />
                     </Container>
                 </Container>
 
@@ -62,7 +63,7 @@ function SignUpTeacher() {
                         xs: '100%',
                         sm: '100%'
                     },
-                    bgcolor: {xs:'#79A8A9',sm:'white',md:'white'}  // corrected color name
+                    bgcolor: {xs:'#000000',sm:'white',md:'white'}  // corrected color name
                 }}>
                     <main >
                         <Box
@@ -82,8 +83,9 @@ function SignUpTeacher() {
                             variant="outlined"
                         >
                             <div sx={{ mb:'10px' }}>
-                                <Typography variant="h4" component="h1">
-                                    <b>Sign in  <img src={logo} style={{width:'100px', m:'0px'}}/></b>
+                            <img src={logo} style={{width:'220px', marginBottom:'30px'}}/>
+                            <Typography component="h1" style={{fontSize:'170%'}}>
+                                    Sign in 
                                 </Typography>
                             </div>
 
@@ -104,15 +106,16 @@ function SignUpTeacher() {
                                     placeholder="password"
                                 />
                             </FormControl>
-                            
-                            <Button sx={{ mt: 1 }}>Log in</Button>
+                            <Link href="/loginTeacher">
+                            <Button sx={{ mt: 1 }}>Sign up</Button>
+                            </Link>
                             <Typography fontSize="body2" sx={{ alignSelf: 'center' }}>
                                 Already have an account? 
-                                <Link href="/loginTeacher">Log in</Link>
+                                <Link href="/loginTeacher" style={{color:'#000', textDecorationColor:'#ffc700', marginLeft:'10px'}}>Log in</Link>
                             </Typography>
                             <Typography fontSize="body2" sx={{ alignSelf: 'center' }}>
                                 Go back to Home Page
-                                <Link href="/home">Home</Link>
+                                <Link href="/" style={{color:'#000', textDecorationColor:'#ffc700', marginLeft:'10px'}}>Home</Link>
                             </Typography>
                         </Box>
                     </main>

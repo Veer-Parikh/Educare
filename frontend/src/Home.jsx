@@ -1,7 +1,8 @@
 import React from "react";
 import Box from '@mui/material/Box';
 import Container from "@mui/material/Container";
-
+import teacher from "./images/teacher.png";
+import student from "./images/stud.png";
 import { Button, Typography } from "@mui/material";
 import { Link } from 'react-router-dom'; 
 
@@ -43,9 +44,9 @@ function Home() {
                     height: '100%', // Ensure the container takes up the full height
                     overflow: 'hidden' // Hide any overflow content      
                 }}>
-                    {/* <img src={sewing_machine} style={{ maxWidth: '80%', maxHeight: '80%', objectFit: 'contain' }} /> */}
-                    <Link to="/loginTailor" style={{ textDecoration: 'none' }}>
-                        <Button variant="contained" style={{padding:'20px',paddingTop:'7px',paddingBottom:'7px'}} sx={{ bgcolor: '#ffc700',maxWidth: { md:'80%',sm:'50%',xs:'50%'} }}><Typography style={{fontWeight:600,fontSize:'105%',color:'#000'}}>TEACHER</Typography></Button>
+                    <img src={teacher} style={{ maxWidth: '85%', maxHeight: '80%', objectFit: 'contain',marginBottom:'20px' }} />
+                    <Link to="/loginTeacher" style={{ textDecoration: 'none' }}>
+                        <Button variant="contained" style={{padding:'20px',paddingTop:'7px',paddingBottom:'7px'}} sx={{ bgcolor: '#ffc700',maxWidth: { md:'90%',sm:'60%',xs:'60%'} }}><Typography style={{fontWeight:600,fontSize:'105%',color:'#000'}}>TEACHER</Typography></Button>
                     </Link>   
                     </Container>            
             </Container>
@@ -77,7 +78,7 @@ function Home() {
                     height: '100%', // Ensure the container takes up the full height
                     overflow: 'hidden' // Hide any overflow content      
                 }}>
-                    {/* <img src={user1} style={{ maxWidth: '80%', maxHeight: '80%', objectFit: 'contain' }} /> */}
+                    <img src={student} style={{ maxWidth: '85%', maxHeight: '80%', objectFit: 'contain',marginBottom:'40px',marginTop:'20px' }}/>
                     <Link to="/loginStudent" style={{ textDecoration: 'none' }}> 
                         <Button variant="contained" style={{padding:'20px',paddingTop:'7px',paddingBottom:'7px'}} sx={{ bgcolor: '#ffc700', maxWidth: { md:'100%',sm:'50%',xs:'50%'} }}><Typography style={{fontWeight:600,fontSize:'105%',color:'#000'}}>STUDENT</Typography></Button>
                     </Link>                  

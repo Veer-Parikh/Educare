@@ -1,10 +1,10 @@
 import React from "react";
 import { Button, Card, CardContent, Grid, Typography } from "@mui/material";
-import TSideBar from "./TSideBar";
+import SSideBar from "./SSideBar";
 import camera from "./images/camera.png";
 
 
-function TeacherDashboard() {
+function StudentDashboard() {
 
 
     return(
@@ -14,7 +14,7 @@ function TeacherDashboard() {
             <Grid container>
                 <Card style={{width:'20%',minHeight:'800px',overflowY: 'auto',height:'auto', backgroundColor:'#000',borderRadius:'0px'}}>
                 <Grid item >
-                    <TSideBar />
+                    <SSideBar />
                 </Grid>
                 </Card>
                 <Card style={{width:'80%',minHeight:'800px',overflowY: 'auto',height:'auto', backgroundColor:'#F5F6FA'}}>
@@ -37,7 +37,7 @@ function TeacherDashboard() {
                 <Card style={{marginBottom:'30px', padding:'20px', marginLeft:'40px',marginRight:'40px',borderRadius:'5px'}}>
                 </Card>
 
-                <Typography style={{textAlign:'left',marginLeft:'50px',marginBottom:'5px',fontWeight:500}}>Teacher ID</Typography> 
+                <Typography style={{textAlign:'left',marginLeft:'50px',marginBottom:'5px',fontWeight:500}}>Student ID</Typography> 
                 <Card style={{marginBottom:'30px', padding:'20px', marginLeft:'40px',marginRight:'40px',borderRadius:'5px'}}>
                 </Card>
                 </Grid>
@@ -64,11 +64,19 @@ function TeacherDashboard() {
                 </Grid>
                 </Grid>
                 
+                <Grid container>
+                    <Grid item xs={6}>
+
+                    </Grid>
+                    <Grid item xs={6}>
+
+                    </Grid>
+                </Grid>
                 <Typography style={{textAlign:'left',marginLeft:'50px',marginBottom:'5px',fontWeight:500}}>School Name</Typography> 
                 <Card style={{marginBottom:'30px', padding:'20px', marginLeft:'40px',marginRight:'40px',borderRadius:'5px'}}> 
                 </Card>
 
-                <Typography style={{textAlign:'left',marginLeft:'50px',marginBottom:'5px',fontWeight:500}}>Professional Summary</Typography>
+                <Typography style={{textAlign:'left',marginLeft:'50px',marginBottom:'5px',fontWeight:500}}>Standard</Typography>
                 <Card style={{marginBottom:'30px', padding:'20px', marginLeft:'40px',marginRight:'40px',borderRadius:'5px',height:'100%'}}>
                     
                 </Card>
@@ -92,4 +100,4 @@ function TeacherDashboard() {
 
 };
 
-export default TeacherDashboard;
+export default StudentDashboard;
