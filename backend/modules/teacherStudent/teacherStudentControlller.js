@@ -5,7 +5,7 @@ const addStudent = async (req,res) => {
     const input = req.body;
     try{
         const create = new TeacherStudent({
-            teacherId:req.user._id,
+            teacherId:req.teacher._id,
             userId:input.userId,
         })
         await create.save()
@@ -37,7 +37,7 @@ const delStudent = async (req,res) => {
 
 const display = async (req,res) => {
     try{
-        const students = await TeacherStudent.find({teacherId:req.user._id})
+        const students = await TeacherStudent.find({teacherId:req.teacher._id})
         res.send(students);
     } catch (error) {
         console.error(error);

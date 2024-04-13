@@ -28,7 +28,7 @@ const enterMarks = async (req,res) => {
 
 const updateMarks = async (req,res) => {
     try {
-        const marks = await Marks.findByIdAndUpdate(req.params.id,req.body,)
+        const marks = await Marks.findOneAndUpdate({userId:req.params.id},req.body,)
         if(marks) {
             res.send("update successful")
         }
@@ -54,14 +54,18 @@ const delMarks = async (req,res) => {
     }
 }
 
-const displayMarks = async (req,res) => {
-    try{
-        const marks = await Marks.findById({id:req.params.id})
-        res.send(marks);
+const displayMarks = async (req, res) => {
+    try {
+        const marks = await Marks.findOne({ userId: req.params.id });
+        if (marks) {
+            res.send(marks);
+        } else {
+            res.status(404).send("Marks not found");
+        }
     } catch (error) {
         console.error(error);
-        res.json(error);
+        res.status(500).json(error);
     }
-}
+};
 
 module.exports = {enterMarks,updateMarks,delMarks,displayMarks}
