@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Card, CardContent, Grid, Typography } from "@mui/material";
 import SSideBar from "./SSideBar";
 import camera from "./images/camera.png";
@@ -6,8 +6,16 @@ import camera from "./images/camera.png";
 
 function StudentDashboard() {
 
+    const [isPictureUploaded, setIsPictureUploaded] = useState(false);
+    const handlePictureUpload = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+          setIsPictureUploaded(file);
+        }
+      };
 
     return(
+        
 
         <div style={{ overflowY: 'auto' }}>
             <CardContent style={{padding:'0px'}}>
@@ -29,8 +37,13 @@ function StudentDashboard() {
                 <Card style={{marginBottom:'30px',  paddingTop:'20px', marginLeft:'40px',marginRight:'40px',borderRadius:'5px'}}>
                 <Grid container>
                 <Grid item xs={4}>
-                <Button><img src={camera} style={{width:'120px',marginTop:'20px'}}/></Button>
                 
+                
+               <Button  name="banner" component="label" className="buttonText1" style={{marginTop:'0px'}}>
+               <img src={camera} style={{width:'120px',marginTop:'20px'}}/>
+                  <input id="banner-upload" type="file" onChange={handlePictureUpload} inputProps={{ accept: "image/png, image/gif, image/jpeg, image/heic, image/jpg" }} style={{ display: 'none' }}/>
+                  </Button>
+
                 </Grid>
                 <Grid item xs={8}>
                 <Typography style={{textAlign:'left',marginLeft:'50px',marginBottom:'5px',fontWeight:500}}>Full Name</Typography>
@@ -76,21 +89,26 @@ function StudentDashboard() {
                 <Card style={{marginBottom:'30px', padding:'20px', marginLeft:'40px',marginRight:'40px',borderRadius:'5px'}}> 
                 </Card>
 
+               <Grid container>
+                <Grid item xs={6}>
+                <Typography style={{textAlign:'left',marginLeft:'50px',marginBottom:'5px',fontWeight:500}}>Board</Typography>
+                <Card style={{marginBottom:'30px', padding:'20px', marginLeft:'40px',marginRight:'40px',borderRadius:'5px'}}>
+                    
+                </Card>
+                </Grid>
+                <Grid item xs={6}>
                 <Typography style={{textAlign:'left',marginLeft:'50px',marginBottom:'5px',fontWeight:500}}>Standard</Typography>
-                <Card style={{marginBottom:'30px', padding:'20px', marginLeft:'40px',marginRight:'40px',borderRadius:'5px',height:'100%'}}>
+                <Card style={{marginBottom:'30px', padding:'20px', marginLeft:'40px',marginRight:'40px',borderRadius:'5px'}}>
                     
                 </Card>
-                <Typography style={{textAlign:'left',marginLeft:'50px',marginBottom:'5px',fontWeight:500}}>Subjects</Typography>
-                <Card style={{marginBottom:'30px', padding:'20px', marginLeft:'40px',marginRight:'40px',borderRadius:'5px',height:'100%'}}>
-                   
-                </Card>
-                <Typography style={{textAlign:'left',marginLeft:'50px',marginBottom:'5px',fontWeight:500}}>Experience (in yrs)</Typography>
-                <Card style={{marginBottom:'30px', padding:'20px', marginLeft:'40px',marginRight:'40px',borderRadius:'5px',height:'100%'}}>
-                    
-                </Card>
-                
-                
+                </Grid>
+                </Grid>
            
+                <Typography style={{textAlign:'left',marginLeft:'50px',marginBottom:'5px',fontWeight:500}}>Interests</Typography>
+                <Card style={{marginBottom:'30px', padding:'20px', marginLeft:'40px',marginRight:'40px',borderRadius:'5px',height:'100%'}}>
+                    
+                </Card>
+
                 </Grid>
                 </Card>
             </Grid>

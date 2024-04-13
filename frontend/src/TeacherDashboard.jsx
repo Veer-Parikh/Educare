@@ -1,11 +1,18 @@
 import React from "react";
+import { useState } from "react";
 import { Button, Card, CardContent, Grid, Typography } from "@mui/material";
 import TSideBar from "./TSideBar";
 import camera from "./images/camera.png";
 
 
 function TeacherDashboard() {
-
+    const [isPictureUploaded, setIsPictureUploaded] = useState(false);
+    const handlePictureUpload = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+          setIsPictureUploaded(file);
+        }
+      };
 
     return(
 
@@ -29,8 +36,11 @@ function TeacherDashboard() {
                 <Card style={{marginBottom:'30px',  paddingTop:'20px', marginLeft:'40px',marginRight:'40px',borderRadius:'5px'}}>
                 <Grid container>
                 <Grid item xs={4}>
-                <Button><img src={camera} style={{width:'120px',marginTop:'20px'}}/></Button>
-                
+                <Button  name="banner" component="label" className="buttonText1" style={{marginTop:'0px'}}>
+               <img src={camera} style={{width:'120px',marginTop:'20px'}}/>
+                  <input id="banner-upload" type="file" onChange={handlePictureUpload} inputProps={{ accept: "image/png, image/gif, image/jpeg, image/heic, image/jpg" }} style={{ display: 'none' }}/>
+                  </Button>
+
                 </Grid>
                 <Grid item xs={8}>
                 <Typography style={{textAlign:'left',marginLeft:'50px',marginBottom:'5px',fontWeight:500}}>Full Name</Typography>
