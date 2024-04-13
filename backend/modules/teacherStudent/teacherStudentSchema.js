@@ -22,4 +22,4 @@ const teacherStudentSchema = new schema({
     timestamps:true
 })
 
-module.exports = mongoose.model('Subject',teacherStudentSchema)
+module.exports = mongoose.model('TeacherStudent',teacherStudentSchema)

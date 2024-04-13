@@ -29,3 +29,15 @@ app.use(
 
 app.use(express.json());
 app.use(bodyParser.json());
+
+const userRouter = require('./modules/user/userRoutes')
+app.use('/user',userRouter)
+
+const teacherRouter = require('./modules/teacher/teacherRoutes')
+app.use('/user',teacherRouter)
+
+const marksRouter = require('./modules/marks/marksRoutes')
+app.use('/user',marksRouter)
+
+const teacherStudentRouter = require('./modules/teacherStudent/teacherStudentRoutes')
+app.use('/user',teacherStudentRouter)

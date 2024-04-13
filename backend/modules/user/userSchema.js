@@ -64,7 +64,11 @@ const userSchema = new schema({
     Marks:{
         type:ObjectId,
         ref:'Marks'
-    }
+    },
+    interest:[{
+        type: String,
+        required:true
+    }]
 },
 {
     timestamps:true
