@@ -41,14 +41,14 @@ const teacherSchema = new schema({
         type:String,
         required:true
     }],
-    TeacherStudent:{
-        type:ObjectId,
-        ref:'TeacherStudent'
-    },
-    Marks:{
-        type:ObjectId,
-        ref:'Marks'
-    }
+    // TeacherStudent:{
+    //     type:ObjectId,
+    //     ref:'TeacherStudent'
+    // },
+    // Marks:{
+    //     type:ObjectId,
+    //     ref:'Marks'
+    // }
 },
 {
     timestamps:true

@@ -19,7 +19,8 @@ const register = async (req,res) => {
             standard:input.standard,
             rollNo:input.rollNo,
             gender:input.gender,
-            interest: input.interest
+            interest: input.interest,
+            type:input.type
         })
         user.password = await bcrypt.hash(user.password,10)
         await user.save()
@@ -73,7 +74,7 @@ const displayAll = async(req,res) => {
 
 const updateuser = async (req,res) => {
     try {
-        const user = await User.findByIdAndUpdate(req.user.id,req.body,)
+        const user = await User.findByIdAndUpdate(req.user._id,req.body,)
         if(user) {
             res.send("updation successful")
         }

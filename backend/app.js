@@ -34,10 +34,10 @@ const userRouter = require('./modules/user/userRoutes')
 app.use('/user',userRouter)
 
 const teacherRouter = require('./modules/teacher/teacherRoutes')
-app.use('/user',teacherRouter)
+app.use('/teacher',teacherRouter)
 
 const marksRouter = require('./modules/marks/marksRoutes')
-app.use('/user',marksRouter)
+app.use('/marks',marksRouter)
 
 const teacherStudentRouter = require('./modules/teacherStudent/teacherStudentRoutes')
-app.use('/user',teacherStudentRouter)
+app.use('/teacherStudent',teacherStudentRouter)

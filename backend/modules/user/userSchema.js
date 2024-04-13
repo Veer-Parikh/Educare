@@ -57,16 +57,20 @@ const userSchema = new schema({
     gender:{
         type:String
     },
-    TeacherStudent:{
-        type:ObjectId,
-        ref:'TeacherStudent'
-    },
-    Marks:{
-        type:ObjectId,
-        ref:'Marks'
-    },
+    // TeacherStudent:{
+    //     type:ObjectId,
+    //     ref:'TeacherStudent'
+    // },
+    // Marks:{
+    //     type:ObjectId,
+    //     ref:'Marks'
+    // },
     interest:[{
         type: String,
+        required:true
+    }],
+    type:[{
+        type:String,
         required:true
     }]
 },
