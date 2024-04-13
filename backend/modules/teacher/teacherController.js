@@ -68,7 +68,7 @@ const displayAll = async(req,res) => {
 
 const updateTeacher = async (req,res) => {
     try {
-        const user = await Teacher.findByIdAndUpdate(req.user._id,req.body,)
+        const user = await Teacher.findByIdAndUpdate(req.teacher._id,req.body,)
         if(user) {
             res.send("updation successful")
         }
@@ -82,7 +82,7 @@ const updateTeacher = async (req,res) => {
 
 const delTeacher = async (req,res) => {
     try {
-        const user = await Teacher.findByIdAndDelete(req.user._id)
+        const user = await Teacher.findByIdAndDelete(req.teacher._id)
         if(user) {
             res.send("deletion successful")
         }
@@ -96,7 +96,7 @@ const delTeacher = async (req,res) => {
 
 const teacherProfile = async (req, res) => {
     try {
-        const teacher = await Teacher.findOne({ _id: req.user._id });
+        const teacher = await Teacher.findOne({ _id: req.teacher._id });
         if (!teacher) {
             return res.status(404).json({ message: 'User not found' });
         }
@@ -112,7 +112,7 @@ const uploadpfp= async(req,res)=>{
         const result = await cloudinary.uploader.upload(req.file.path);
         const pfp = result.secure_url;
 
-        const user = await Teacher.findById(req.user._id);
+        const user = await Teacher.findById(req.teacher._id);
         user.pfp = pfp;
         await user.save();
         return res.send("Profile picture uploaded and saved.");
