@@ -41,10 +41,6 @@ const teacherSchema = new schema({
         type:String,
         required:true
     }],
-    teacherStudent:[{
-        type:ObjectId,
-        ref:''
-    }],
     TeacherStudent:{
         type:ObjectId,
         ref:'TeacherStudent'
