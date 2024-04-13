@@ -26,12 +26,12 @@ function Reviews() {
         <div style={{ minHeight:'600px',overflowY: 'auto',height:'auto' }}>
             <CardContent style={{padding:'0px'}}>
             <Grid container>
-                <Card style={{width:'18%',minHeight:'800px',overflowY: 'auto',height:'auto', backgroundColor:'#000',borderRadius:'0px'}}>
+                <Card style={{width:'20%',minHeight:'800px',overflowY: 'auto',height:'auto', backgroundColor:'#000',borderRadius:'0px'}}>
                 <Grid item >
                     <TSideBar />
                 </Grid>
                 </Card>
-                <Card style={{width:'82%',minHeight:'800px',overflowY: 'auto',height:'auto', backgroundColor:'#F5F6FA'}}>
+                <Card style={{width:'80%',minHeight:'800px',overflowY: 'auto',height:'auto', backgroundColor:'#F5F6FA'}}>
                 <Grid item>
                 {/* <Nav /> */}
                 <Typography style={{fontSize:'210%',fontWeight:700,marginTop:'20px',textAlign:'left',marginLeft:'30px', marginBottom:'30px'}}>Add Students</Typography>
