@@ -9,8 +9,6 @@ function AddMaterial() {
 
     const[uploadedFiles, setUploadedFiles] = useState([]);
 
-    
-
     const handleUpload = (event) => {
         const file = event.target.files[0];
         if (file) {

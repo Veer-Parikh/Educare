@@ -12,6 +12,7 @@ import SignUpStudent from "./SignUpStudent";
 import Home from "./Home";
 import StudentDashboard from "./StudentDashboard";
 import AddMaterial from "./AddMaterial";
+import Quiz from "./Quiz"
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
             <Route path="/studentDashboard" element={<StudentDashboard />} />
             <Route path="/addstudents" element={<AddStudents />} />
             <Route path="/addmaterial" element={<AddMaterial/>} />
+            <Route path="/quiz" element={<Quiz/>} />
             <Route path="/loginTeacher" element={<LoginTeacher/>} />
             <Route path="/signupTeacher" element={<SignUpTeacher/>} />
             <Route path="/loginStudent" element={<LoginStudent/>} />

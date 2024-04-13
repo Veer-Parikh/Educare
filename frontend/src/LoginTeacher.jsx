@@ -106,7 +106,7 @@ function LoginTeacher() {
                                 />
                             </FormControl>
                             <Link href="/teacherDashboard">
-                            <Button sx={{ mt: 1, backgroundColor:'#ffc700', color:'#000' }}>Log in</Button>
+                            <Button sx={{ mt: 1, backgroundColor:'#ffc700', color:'#000', padding:'10px',paddingLeft:'30px',paddingRight:'30px' }}>Log in</Button>
                             </Link>
                             <Typography fontSize="body2" sx={{ alignSelf: 'center', marginTop:'50px' }}>
                                 Don&apos;t have an account? 

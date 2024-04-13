@@ -21,7 +21,7 @@ function SignUpStudent() {
     const [board, setBoard] = useState('');
     const [schoolName, setSchoolName] = useState('');
     const [description, setDescription] = useState('');
-    const [rollno, setRollNo] = useState(0);
+    const [rollNo, setRollNo] = useState(0);
     const [standard, setStandard] = useState('');
     const [type, setType] = useState('');
     const [interests, setInterests] = useState([]);
@@ -94,7 +94,7 @@ function SignUpStudent() {
             phone: phone,
             schoolName: schoolName,
             description: description,
-            rollno: rollno,
+            rollNo: rollNo,
             board: board,
             gender: gender,
             dob: dob,
@@ -113,7 +113,9 @@ function SignUpStudent() {
             }
         })
             .then(response => {
+                
                 console.log(response.data);
+               
             })
             .catch(error => {
                 console.error(error);
@@ -123,20 +125,20 @@ function SignUpStudent() {
 
     return (
         <ThemeProvider theme={fontcolorTheme}>
-        <Box sx={{ display: 'flex', flexDirection: 'row', height: '100vh' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'row', height: 'auto' }}>
             {/* Left Container */}
-            <Container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '40%', height: '100%', bgcolor: '#000000' }}>
+            <Container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '40%', height: 'auto', bgcolor: '#000000' }}>
                 <Container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', overflow: 'hidden' }}>
                     <img src={signup} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} alt="Sewing Machine" />
                 </Container>
             </Container>
 
             {/* Right Container */}
-            <Container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '60%', height: '100%', bgcolor: 'white' }}>
+            <Container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '60%', height: 'auto', bgcolor: 'white' }}>
                 <Box sx={{ width: '100%', mx: 'auto', my: 4, py: 3, px: 2, gap: 2, boxShadow: 'md', bgcolor: 'white', borderRadius: '16px' }} variant="outlined">
                     <div sx={{ mb: '10px' }}>
                         <img src={logo} style={{ width: '220px', marginBottom: '30px' }} alt="Logo" />
-                        <Typography component="h1" style={{ fontSize: '170%',textAlign:'center' }}>Sign in</Typography>
+                        <Typography component="h1" style={{ fontSize: '170%',textAlign:'center',marginBottom:'20px' }}>Sign in</Typography>
                     </div>
 
                           
@@ -221,11 +223,11 @@ function SignUpStudent() {
                                         value={gender}
                                         onChange={handleGenderChange}
                                         placeholder="Select gender"
-                                        sx={{ backgroundColor: '#f0f0f0', width: '165%', padding: '5px' }}
+                                        sx={{ backgroundColor: '#f0f0f0', width: '330px' }}
                                     >
                                         <MenuItem value="male">Male</MenuItem>
                                         <MenuItem value="female">Female</MenuItem>
-                                        <MenuItem value="other">Other</MenuItem>
+                                      
                                     </Select>
                                 </FormControl>
 
@@ -240,7 +242,7 @@ function SignUpStudent() {
                                     name="school"
                                     value={schoolName}
                                     type="text"
-                                    placeholder="Enter subjects (separated by commas)"
+                                    placeholder="Enter school name"
                                     onChange={handleSchoolNameChange}
                                     sx={{ backgroundColor: '#f0f0f0', width: '165%' , padding:'5px'}}
                                 />
@@ -252,7 +254,7 @@ function SignUpStudent() {
                                     name="board"
                                     value={board}
                                     type="text"
-                                    placeholder="Enter a short description"
+                                    placeholder="Enter board"
                                     onChange={handleBoardChange}
                                     sx={{ backgroundColor: '#f0f0f0', width: '165%' , padding:'5px'}}
                                 />
@@ -276,7 +278,7 @@ function SignUpStudent() {
                                 <Input
                                 variant="contained"
                                     name="rollno"
-                                    value={rollno}
+                                    value={rollNo}
                                     type="number"
                                     placeholder="Enter roll no"
                                     onChange={handleRollNoChange}
@@ -296,20 +298,7 @@ function SignUpStudent() {
                                 />
                             </FormControl>
 
-                            <FormControl sx={{ mb: '20px' }}>
-                                    <FormLabel sx={{ textAlign: "left" }}>Type of Learner</FormLabel>
-                                    <Select
-                                        value={type}
-                                        onChange={handleTypeChange}
-                                        placeholder="Select gender"
-                                        sx={{ backgroundColor: '#f0f0f0', width: '165%', padding: '5px' }}
-                                    >
-                                        <MenuItem value="male">Male</MenuItem>
-                                        <MenuItem value="female">Female</MenuItem>
-                                        <MenuItem value="other">Other</MenuItem>
-                                    </Select>
-                                </FormControl>
-
+                            
                             <FormControl sx={{ mb: '20px' }}>
                                 <FormLabel sx={{ textAlign: "left" }}>Interests</FormLabel>
                                 <Input
@@ -317,11 +306,26 @@ function SignUpStudent() {
                                     name="interests"
                                     value={interests}
                                     type="text"
-                                    placeholder="Enter subjects (separated by commas)"
+                                    placeholder="Enter interests"
                                     onChange={handleInterestsChange}
                                     sx={{ backgroundColor: '#f0f0f0', width: '165%' , padding:'5px'}}
                                 />
                             </FormControl>
+
+                            <FormControl sx={{ mb: '20px' }}>
+                                    <FormLabel sx={{ textAlign: "left" }}>Type of Learner</FormLabel>
+                                    <Select
+                                        value={type}
+                                        onChange={handleTypeChange}
+                                        placeholder="Select gender"
+                                        sx={{ backgroundColor: '#f0f0f0', width: '330px' }}
+                                    >
+                                        <MenuItem value="Visual Learner">Visual Learner</MenuItem>
+                                        <MenuItem value="Auditory Learner">Auditory Learner</MenuItem>
+                                        <MenuItem value="Reading/Writing Learner">Reading/Writing Learner</MenuItem>
+                                    </Select>
+                                </FormControl>
+
                           
 
 
@@ -329,7 +333,7 @@ function SignUpStudent() {
                     </Grid>
 
                             {/* <Link href="/loginStudent"> */}
-                            <Button onClick={handleSignUp} sx={{ mt: 1, backgroundColor:'#ffc700', color:'#000'}}>Sign up</Button>
+                            <Button onClick={handleSignUp} sx={{ mt: 3, backgroundColor:'#ffc700', color:'#000', padding:'10px',paddingLeft:'30px',paddingRight:'30px',mb: 3}}>Sign up</Button>
                             {/* </Link> */}
                             <Typography fontSize="body2" sx={{ alignSelf: 'center' }}>
                                 Already have an account?

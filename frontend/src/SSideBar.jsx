@@ -6,6 +6,7 @@ import student from "./images/student.png";
 import progress from "./images/progress.png";
 import rec from "./images/recomm.png";
 import logo from "./images/logo.png";
+import quiz from "./images/ideas.png";
 
 function SSideBar() {
 
@@ -41,6 +42,12 @@ function SSideBar() {
                         <Button onClick={() => handleButtonClick('performance',"/performance")} style={{ backgroundColor: selectedButton === 'performance' ? "#ffc700" : '#000', color: '#000', width: '80%', padding: '8px', textAlign: 'left', marginLeft: '1px',justifyContent:'flex-start',paddingLeft:'5%' }}>
                                 <img src={rec} style={{ width: '20px', marginTop: '3px' }} alt="Review Icon" />
                                 <Typography style={{ fontSize: '110%', marginLeft: '15px', textAlign: 'left',textTransform: 'none',color:'#fff' }}>Performance</Typography>
+                        </Button>
+                    </li>
+                    <li>
+                        <Button onClick={() => handleButtonClick('quiz',"/quiz")} style={{ backgroundColor: selectedButton === 'quiz' ? "#ffc700" : '#000', color: '#000', width: '80%', padding: '8px', textAlign: 'left', marginLeft: '1px',justifyContent:'flex-start',paddingLeft:'5%' }}>
+                                <img src={quiz} style={{ width: '20px', marginTop: '3px' }} alt="Review Icon" />
+                                <Typography style={{ fontSize: '110%', marginLeft: '15px', textAlign: 'left',textTransform: 'none',color:'#fff' }}>Quiz</Typography>
                         </Button>
                     </li>
                 </ul>

@@ -209,7 +209,7 @@ function SignUpTeacher() {
                     </Grid>
 
                     {/* <Link href="/loginTeacher"> */}
-                        <Button onClick={handleSignUp} sx={{ mt: 1 , backgroundColor:'#ffc700', color:'#000'}} >Sign up</Button>
+                        <Button onClick={handleSignUp} sx={{ mt: 1 , backgroundColor:'#ffc700', color:'#000', padding:'10px',paddingLeft:'30px',paddingRight:'30px',mb: 3}} >Sign up</Button>
                     {/* </Link> */}
                     <Typography fontSize="body2" sx={{ alignSelf: 'center' }}>
                         Already have an account?
