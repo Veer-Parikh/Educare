@@ -332,9 +332,9 @@ function SignUpStudent() {
                         </Grid>
                     </Grid>
 
-                            {/* <Link href="/loginStudent"> */}
+                            <Link href="/loginStudent">
                             <Button onClick={handleSignUp} sx={{ mt: 3, backgroundColor:'#ffc700', color:'#000', padding:'10px',paddingLeft:'30px',paddingRight:'30px',mb: 3}}>Sign up</Button>
-                            {/* </Link> */}
+                            </Link>
                             <Typography fontSize="body2" sx={{ alignSelf: 'center' }}>
                                 Already have an account?
                                 <Link href="/loginStudent" style={{color:'#000', textDecorationColor:'#ffc700', marginLeft:'10px'}}>Log in</Link>

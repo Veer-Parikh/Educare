@@ -1,126 +1,151 @@
+
 import React from "react";
+import { useState, useContext } from "react";
 import Box from '@mui/material/Box';
 import Container from "@mui/material/Container";
 import { ThemeProvider } from "@mui/material/styles";
 import fontcolorTheme from "./fontColorTheme";
-import { Button, Typography, FormControl, FormLabel, Input, Link } from "@mui/material";
+import { Button, Typography, FormControl, FormLabel, Input, Grid, Select, MenuItem } from "@mui/material";
+import { Link } from "react-router-dom";
 import logo from "./images/educare.png";
 import login from "./images/login.png";
-
+import axios from "axios";
+import EmailContext from './EmailContext';
 function LoginTeacher() {
+
+    const [password, setPassword] = useState('');
+    
+    const [error, setError] = useState(null);
+    
+    const { email, setEmail } = useContext(EmailContext);
+
+      const handlePasswordChange = (event) => {
+        setPassword(event.target.value)
+      };
+
+      const handleEmailChange = (event) => {
+        setEmail(event.target.value)
+      };
+
+      const handleLogin = async (event) => {
+        event.preventDefault();
+    
+        try {
+          // Send login request to server
+          const response = await axios.post('http://localhost:5000/teacher/login', {
+            email,
+            password,
+          });
+    
+          // Assuming the response contains user data including email
+          const userData = response.data;
+    
+        //   // Update email globally
+        //   setEmail(userData.email);
+    
+          // Optionally, you can redirect the user to another page upon successful login
+          // history.push('/dashboard');
+        } catch (error) {
+          // Handle login errors
+          setError(error.response.data.message);
+        }
+      };
+   
+
+    // const handleLogin = (event) => {
+    //     event.preventDefault();
+
+    //     const signUpData = {
+          
+    //         password: password,
+    //         email: email,
+           
+
+    //     };
+
+    //     const requestData = JSON.stringify(signUpData);
+
+    //     axios.post(`http://localhost:5000/teacher/login`, requestData, {
+    //         headers: {
+    //             "Content-Type": "application/json"
+    //         }
+    //     })
+    //         .then(response => {
+                
+    //             console.log(response.data);
+               
+    //         })
+    //         .catch(error => {
+    //             console.error(error);
+    //         });
+    // };
+    
+
     return (
         <ThemeProvider theme={fontcolorTheme}>
-            <Box sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                height: '100vh'  // Set height to match the viewport height
-            }}>
-                <Container sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: {
-                        xs: '0%',
-                        sm: '40%',
-                        md: '40%'
-                    },
-                    height: {
-                        xs: '0%',
-                        sm: '100%',
-                        md: '100%'
-                    },
-                    p: {
-                        xs: '0%'
-                    },
-                    bgcolor: '#000000',  // corrected color name
-                }}>
-
-                    <Container sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        width: '100%', // Ensure the container takes up the full width
-                        height: '100%', // Ensure the container takes up the full height
-                        overflow: 'hidden' // Hide any overflow content      
-                    }}>
-                        <img src={login} style={{ maxWidth: '70%', maxHeight: '100%', objectFit: 'contain' }} alt="Sewing Machine" />
-                    </Container>
+        <Box sx={{ display: 'flex', flexDirection: 'row', height: 'auto' }}>
+            {/* Left Container */}
+            <Container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '40%', height: 'auto', bgcolor: '#000000' }}>
+                <Container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', overflow: 'hidden' }}>
+                    <img src={login}  style={{ maxWidth: '70%', maxHeight: '100%', objectFit: 'contain' }} alt="Sewing Machine" />
                 </Container>
+            </Container>
 
-                <Container sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: {
-                        xs: '100%',
-                        sm: '60%',
-                    },
-                    height: {
-                        xs: '100%',
-                        sm: '100%'
-                    },
-                    bgcolor: {xs:'#79A8A9',sm:'white',md:'white'}  // corrected color name
-                }}>
-                    <main >
-                        <Box
-                            sx={{
-                                width: 300,
-                                mx: 'auto', // margin left & right
-                                my: 4, // margin top & bottom
-                                py: 3, // padding top & bottom
-                                px: 2, // padding left & right
-                                display: 'flex',
-                                flexDirection: 'column',
-                                gap: 2,
-                                boxShadow: 'md',
-                                bgcolor:'white',
-                                borderRadius:'16px'
-                            }}
-                            variant="outlined"
-                        >
-                            <div sx={{ mb:'10px' }}>
-                            <img src={logo} style={{width:'220px', marginBottom:'30px'}}/>
-                                <Typography component="h1" style={{fontSize:'170%'}}>
-                                    Log in 
-                                </Typography>
-                            </div>
+            {/* Right Container */}
+            <Container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '60%',minHeight:'710px', height: 'auto', bgcolor: 'white' }}>
+                <Box sx={{ width: '100%', mx: 'auto', my: 4, py: 3, px: 2, gap: 2, boxShadow: 'md', bgcolor: 'white', borderRadius: '16px' }} variant="outlined">
+                    <div sx={{ mb: '10px' }}>
+                        <img src={logo} style={{ width: '220px', marginBottom: '30px' }} alt="Logo" />
+                        <Typography component="h1" style={{ fontSize: '170%',textAlign:'center',marginBottom:'20px' }}>Login</Typography>
+                    </div>
 
-                            <FormControl sx={{ mb:'20px' }}>
+                          
+                            <Grid container spacing={2} style={{width:'100%'}}>
+                        {/* First Column */}
+                        <Grid item xs={12} style={{marginRight:'50px'}}>
+                        <FormControl sx={{ mb:'20px' }}>
                             <FormLabel sx={{ textAlign: "left" }}>Email</FormLabel>
                                 <Input
                                     name="email"
                                     type="email"
                                     placeholder="Enter email"
+                                    onChange={handleEmailChange}
+                                    sx={{ backgroundColor: '#f0f0f0', width: '130%' , padding:'5px'}}
                                 />
                             </FormControl>
 
-                            <FormControl sx={{ mb:'10px' }} >
+                        </Grid>
+
+                        {/* Second Column */}
+                        <Grid item xs={12} style={{marginRight:'50px'}}>
+                        <FormControl sx={{ mb:'10px' }} >
                             <FormLabel sx={{ textAlign: "left" }}>Passsword</FormLabel>
                                 <Input
                                     name="password"
                                     type="password"
                                     placeholder="Enter password"
+                                    onChange={handlePasswordChange}
+                                    sx={{ backgroundColor: '#f0f0f0', width: '130%' , padding:'5px'}}
                                 />
                             </FormControl>
-                            <Link href="/teacherDashboard">
-                            <Button sx={{ mt: 1, backgroundColor:'#ffc700', color:'#000', padding:'10px',paddingLeft:'30px',paddingRight:'30px' }}>Log in</Button>
+                        </Grid>
+                    </Grid>
+
+                            <Link to="/teacherDashboard">
+                            <Button sx={{ mt: 3, backgroundColor:'#ffc700', color:'#000', padding:'10px',paddingLeft:'30px',paddingRight:'30px',mb: 3}}>Login</Button>
                             </Link>
-                            <Typography fontSize="body2" sx={{ alignSelf: 'center', marginTop:'50px' }}>
-                                Don&apos;t have an account? 
-                                <Link href="/signupTeacher" style={{color:'#000', textDecorationColor:'#ffc700', marginLeft:'10px'}}>Sign up</Link>
+                            <Typography fontSize="body2" sx={{ alignSelf: 'center' }}>
+                                Don't have an account?
+                                <Link to="/signupTeacher" style={{color:'#000', textDecorationColor:'#ffc700', marginLeft:'10px'}}>Sign Up</Link>
                             </Typography>
                             <Typography fontSize="body2" sx={{ alignSelf: 'center' }}>
                                 Go back to Home Page
-                                <Link href="/" style={{color:'#000', textDecorationColor:'#ffc700', marginLeft:'10px'}}>Home</Link>
+                                <Link to="/" style={{color:'#000', textDecorationColor:'#ffc700', marginLeft:'10px'}}>Home</Link>
                             </Typography>
-                        </Box>
-                    </main>
-                </Container>
-            </Box>
-        </ThemeProvider>
+                            </Box>
+            </Container>
+        </Box>
+    </ThemeProvider>
     );
 };
 

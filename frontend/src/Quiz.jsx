@@ -1,33 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button, Card, CardContent, Grid, Typography, FormControl, Input } from "@mui/material";
 import SSideBar from "./SSideBar";
 import AddIcon from '@mui/icons-material/Add';
 import Swal from "sweetalert2";
+import questionsAnswers from "./data.json";
 
 function Quiz() {
     const [uploadedFiles, setUploadedFiles] = useState([]);
-    const [questionsAnswers, setQuestionsAnswers] = useState([]);
-    const [quizGenerated, setQuizGenerated] = useState(false);
-
-    const fetchData = async () => {
-        try {
-            const response = await fetch(`https://73e5-35-204-6-242.ngrok-free.app/generate_question_answer_pairs/`);
-            if (!response.ok) {
-                throw new Error('Failed to fetch data');
-            }
-            const data = await response.();
-            const allData = data.question_answer_pairs || [];
-
-            console.log("Response Data:", allData);
-            setQuestionsAnswers(allData);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    };
-
-    useEffect(() => {
-        fetchData();
-    }, [() => handleGenerateQuiz]);
+    const [generateClicked, setGenerateClicked] = useState(false); // State to track if the Generate Quiz button is clicked
+    const [userAnswers, setUserAnswers] = useState({}); // State to store user's answers
+    const [answerStatus, setAnswerStatus] = useState({}); // State to store the correctness status of user's answers
 
     const handleUpload = (event) => {
         const file = event.target.files[0];
@@ -40,7 +22,22 @@ function Quiz() {
     };
 
     const handleGenerateQuiz = () => {
-        setQuizGenerated(true);
+        setGenerateClicked(true); // Set the state to indicate that Generate Quiz button is clicked
+    };
+
+    const handleAnswerChange = (event, questionId) => {
+        const { value } = event.target;
+        setUserAnswers({ ...userAnswers, [questionId]: value });
+        checkAnswer(questionId, value);
+    };
+
+    const checkAnswer = (questionId, userAnswer) => {
+        const correctAnswer = questionsAnswers.find(qa => qa.id === questionId)?.answer;
+        if (userAnswer === correctAnswer) {
+            setAnswerStatus({ ...answerStatus, [questionId]: 'correct' });
+        } else {
+            setAnswerStatus({ ...answerStatus, [questionId]: 'incorrect' });
+        }
     };
 
     return (
@@ -54,7 +51,7 @@ function Quiz() {
                     </Card>
                     <Card style={{ width: '80%', minHeight: '800px', overflowY: 'auto', height: 'auto', backgroundColor: '#F5F6FA' }}>
                         <Grid item>
-                            <Typography style={{ fontSize: '210%', fontWeight: 700, marginTop: '20px', textAlign: 'left', marginLeft: '30px', marginBottom: '30px' }}>Quiz</Typography>
+                            <Typography style={{ fontSize: '210%', fontWeight: 700, marginTop: '20px', textAlign: 'left', marginLeft: '30px', marginBottom: '30px' }}>Chapter Wise Quiz</Typography>
                             <div style={{ display: 'flex' }}>
                                 <div>
                                     <Button name="banner" component="label" className="buttonText1" style={{ backgroundColor: '#ffc700', textDecoration: 'none', color: '#000', display: 'flex', justifyContent: 'flex-start', marginLeft: '40px', marginBottom: '20px', padding: '8px', width: '185px' }}>
@@ -67,28 +64,30 @@ function Quiz() {
                                     {uploadedFiles.length > 0 && <Typography className="formSubHeadings" style={{ textDecoration: 'underline', textAlign: 'left', marginLeft: '15px', marginTop: '10px' }}>Document uploaded</Typography>}
                                 </div>
                             </div>
-                            <Button name="banner" component="label" className="buttonText1" onClick={handleGenerateQuiz} style={{ backgroundColor: '#ffc700', textDecoration: 'none', color: '#000', display: 'flex', justifyContent: 'flex-start', marginLeft: '40px', marginBottom: '20px', padding: '8px', width: '185px' }}>
+                            <Button name="banner" component="label" className="buttonText1" onClick={handleGenerateQuiz} style={{ backgroundColor: '#000', textDecoration: 'none', color: '#ffc700', display: 'flex', justifyContent: 'flex-start', marginLeft: '40px', marginBottom: '20px', padding: '8px', width: '155px' }}>
                                 <Typography style={{ fontWeight: 600, marginRight: '10px', fontSize: '105%' }}>Generate Quiz</Typography>
                             </Button>
 
-                            {quizGenerated && questionsAnswers.map((qa) => (
+                            {generateClicked && questionsAnswers.map((qa) => (
                                 <Card key={qa.id} style={{ marginBottom: '30px', padding: '20px', marginLeft: '40px', marginRight: '40px', borderRadius: '15px', height: '100%' }}>
-                                    <Typography style={{ textAlign: 'left', marginLeft: '50px', marginBottom: '5px', fontWeight: 500 }}>Question</Typography>
-                                    <Typography style={{ textAlign: 'left', fontSize: '120%', fontWeight: 600 }}>{qa.question}</Typography>
+                                    <Typography style={{ textAlign: 'center', fontWeight: 700, marginBottom: '5px' }}>Question</Typography>
+                                    <Typography style={{ textAlign: 'left' }}>{qa.question}</Typography>
 
-                                    <Typography style={{ textAlign: 'left', marginLeft: '50px', marginBottom: '5px', fontWeight: 500 }}>Answer</Typography>
+                                    <Typography style={{ textAlign: 'center', marginBottom: '5px', fontWeight: 700, marginTop: '20px' }}>Answer</Typography>
                                     <FormControl sx={{ mb: '10px' }} >
                                         <Input
-                                            name="answer"
+                                            name={`answer_${qa.id}`}
                                             type="text"
                                             placeholder="Type your answer"
+                                            onChange={(event) => handleAnswerChange(event, qa.id)}
+                                            style={{ color: answerStatus[qa.id] === 'correct' ? 'green' : answerStatus[qa.id] === 'incorrect' ? 'red' : 'inherit' }}
                                         />
                                     </FormControl>
-
+                                    {answerStatus[qa.id] === 'correct' && <Typography style={{ color: 'green' }}>Correct</Typography>}
+                                    {answerStatus[qa.id] === 'incorrect' && <Typography style={{ color: 'red' }}>Incorrect</Typography>}
                                 </Card>
                             ))}
                         </Grid>
-
                     </Card>
                 </Grid>
             </CardContent>

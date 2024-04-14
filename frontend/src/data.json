@@ -1,0 +1,78 @@
+ [
+      {
+        "id": 1,
+        "question": "• When the processor requests __________ from the main memory, a block (chunk) of __________ is\ntransferred to the cache and then to processor.",
+        "answer": "data"
+      },
+      {
+        "id": 2,
+        "question": "Location -\n(CPU, __________ External)\n2.",
+        "answer": "internal"
+      },
+      {
+        "id": 3,
+        "question": "A table stores the information about all such segments and is called Segment\n__",
+        "answer": "table"
+      },
+      {
+        "id": 4,
+        "question": "As multiple processors operate in parallel, and independently multiple __________s\nmay possess different copies of the same memory block, this creates a __________\ncoherence problem.",
+        "answer": "cache"
+      },
+      {
+        "id": 6,
+        "question": "Temporal __________ of reference2.",
+        "answer": "locality"
+      },
+      {
+        "id": 7,
+        "question": "• It is referred __________ as the level 2 (L2) cache.",
+        "answer": "to"
+      },
+      {
+        "id": 8,
+        "question": "__________ Types of Locality of reference\n1.",
+        "answer": "3"
+      },
+      {
+        "id": 9,
+        "question": "• RAM __________ fast but it __________ volatile, which means it will not retain data if there __________ no\npower.",
+        "answer": "is"
+      },
+      {
+        "id": 11,
+        "question": "__________ is also known as Memory Banking.2.",
+        "answer": "it"
+      },
+      {
+        "id": 13,
+        "question": "It is therefore __________ to save data to the storage device before the\nsystem is turned off.",
+        "answer": "important"
+      },
+      {
+        "id": 14,
+        "question": "Access method –\n__________ Sequential, Direct )\n5.",
+        "answer": "random"
+      },
+      {
+        "id": 16,
+        "question": "EPROM (Erasable Programmable ROM): It allow you to write and __________\nthem many times.",
+        "answer": "rewrite"
+      },
+      {
+        "id": 17,
+        "question": "The memory hierarchy system consists of all storage devices contained in\na computer system from __________ slow Auxiliary Memory to fast Main Memory and to\nsmaller Cache and register memory.• Auxiliary memory access time is generally 1000 times that of __________ main\nmemory, hence it is at __________ bottom of __________ hierarchy.",
+        "answer": "the"
+      },
+      {
+        "id": 18,
+        "question": "__________ time –\n(Time b/w 2 access i.e Time required by memory to recover before next access)\n6.",
+        "answer": "Cycle"
+      },
+      {
+        "id": 19,
+        "question": "Interle_ved memory mkes __________ system more responsive __________nd fster compred to\nnon-interle_ving.",
+        "answer": "a"
+      }
+    ]
+  

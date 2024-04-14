@@ -163,7 +163,7 @@ function SignUpTeacher() {
                                     name="school"
                                     value={schoolName}
                                     type="text"
-                                    placeholder="Enter subjects (separated by commas)"
+                                    placeholder="Enter school name"
                                     onChange={handleSchoolNameChange}
                                     sx={{ backgroundColor: '#f0f0f0', width: '165%' , padding:'5px'}}
                                 />

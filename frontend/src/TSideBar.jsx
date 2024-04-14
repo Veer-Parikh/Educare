@@ -25,20 +25,21 @@ function TSideBar() {
             <hr />
             <nav>
                 <ul style={{ listStyle: 'none', marginTop: '40px' }}>
+                
                     <li>
-                        <Button onClick={() => handleButtonClick('profile',"/teacherDashboard")} style={{ backgroundColor: selectedButton === 'dashboardteacher' ? "#ffc700" : '#000', width: '80%',padding: '8px', textAlign: 'left', marginLeft: '1px',justifyContent:'flex-start',paddingLeft:'5%' }}>
+                        <Button onClick={() => handleButtonClick('profile',"/teacherDashboard")} style={{ backgroundColor:'#000', width: '80%',padding: '8px', textAlign: 'left', marginLeft: '1px',justifyContent:'flex-start',paddingLeft:'5%' }}>
                                  <img src={profile} style={{ width: '20px' }} />
                                 <Typography style={{ fontSize: '112%', marginLeft: '15px',textTransform: 'none',color:'#fff'}}>Profile</Typography>
                         </Button>
                     </li>
                     <li>
-                        <Button onClick={() => handleButtonClick('addstudents',"/addstudents")} style={{ backgroundColor: selectedButton === 'addstudents' ? "#ffc700" : '#000', color: '#000', width: '80%', padding: '8px', textAlign: 'left', marginLeft: '1px',justifyContent:'flex-start',paddingLeft:'5%' }}>
+                        <Button onClick={() => handleButtonClick('addstudents',"/addstudents")} style={{ backgroundColor:'#000', color: '#000', width: '80%', padding: '8px', textAlign: 'left', marginLeft: '1px',justifyContent:'flex-start',paddingLeft:'5%' }}>
                                 <img src={student} style={{ width: '20px', marginTop: '3px' }} />
                                 <Typography style={{ fontSize: '110%', marginLeft: '15px',textTransform: 'none',color:'#fff' }}>Add Students</Typography>
                         </Button>
                     </li>
                     <li>
-                        <Button onClick={() => handleButtonClick('addmaterial',"/addmaterial")} style={{ backgroundColor: selectedButton === 'addmaterial' ? "#ffc700" : '#000', color: '#000', width: '80%', padding: '8px', textAlign: 'left', marginLeft: '1px',justifyContent:'flex-start',paddingLeft:'5%' }}>
+                        <Button onClick={() => handleButtonClick('addmaterial',"/addmaterial")} style={{ backgroundColor: '#000', color: '#000', width: '80%', padding: '8px', textAlign: 'left', marginLeft: '1px',justifyContent:'flex-start',paddingLeft:'5%' }}>
                                 <img src={doc} style={{ width: '20px', marginTop: '3px' }} alt="Review Icon" />
                                 <Typography style={{ fontSize: '110%', marginLeft: '15px', textAlign: 'left',textTransform: 'none',color:'#fff' }}>Add Material</Typography>
                         </Button>
