@@ -1,7 +1,6 @@
 const express = require('express')
 const router = express.Router();
 const { register,login,updateTeacher,delTeacher,teacherProfile,displayAll,uploadpfp } = require("./teacherController")
-const {  } = require("../../middleware/auth")
 const { upload } = require("../../middleware/multer")
 
 router.post('/signup',register)

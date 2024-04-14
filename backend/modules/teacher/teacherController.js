@@ -112,9 +112,9 @@ const uploadpfp= async(req,res)=>{
         const result = await cloudinary.uploader.upload(req.file.path);
         const pfp = result.secure_url;
 
-        const user = await Teacher.findOne(req.params.email); ////
-        user.pfp = pfp;
-        await user.save();
+        const teacher = await Teacher.findOne({email:req.params.email}); ////
+        teacher.pfp = pfp;
+        await teacher.save();
         return res.send("Profile picture uploaded and saved.");
     } catch (error) {
         return res.status(500).send(error);
