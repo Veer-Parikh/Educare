@@ -74,7 +74,7 @@ const displayAll = async(req,res) => {
 
 const updateuser = async (req,res) => {
     try {
-        const user = await User.findOneAndUpdate({username:req.params.username} ,req.body,)////
+        const user = await User.findOneAndUpdate({email:req.params.email} ,req.body,)////
         if(user) {
             res.send("updation successful")
         }
@@ -102,7 +102,7 @@ const deluser = async (req,res) => {
 
 const myProfile = async (req, res) => {
     try {
-        const user = await User.findOne({ username: req.params.username });
+        const user = await User.findOne({ email: req.params.email });
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
@@ -118,7 +118,7 @@ const uploadpfp= async(req,res)=>{
         const result = await cloudinary.uploader.upload(req.file.path);
         const pfp = result.secure_url;
 
-        const user = await User.findOne({ username: req.params.username });////
+        const user = await User.findOne({ email: req.params.email });////
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
