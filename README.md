@@ -2,7 +2,6 @@
 ![Screenshot (339)](https://github.com/VishwaJarsaniya/git_init_devopia/assets/143692465/76e25cd8-d45f-416c-b842-46c2ea2bdfe4)
 ![Screenshot (340)](https://github.com/VishwaJarsaniya/git_init_devopia/assets/143692465/a66d3a8e-f0f6-4b19-8670-541cee2e452b)
 ![Screenshot (341)](https://github.com/VishwaJarsaniya/git_init_devopia/assets/143692465/ad0a069f-dbba-47c3-b26e-602659d6742d)
-![Screenshot (342)](https://github.com/VishwaJarsaniya/git_init_devopia/assets/143692465/785fc0f0-629c-4687-b4e3-d90b3087d5b3)
 ![Screenshot (342)](https://github.com/VishwaJarsaniya/git_init_devopia/assets/143692465/35434a12-9f54-4177-8235-c3ec6ec6a60e)
 ![Screenshot (343)](https://github.com/VishwaJarsaniya/git_init_devopia/assets/143692465/64812470-0325-4adf-81a1-f0b624526118)
 ![Screenshot (344)](https://github.com/VishwaJarsaniya/git_init_devopia/assets/143692465/d25b275c-9404-4b19-bbd0-ecff24070b22)
