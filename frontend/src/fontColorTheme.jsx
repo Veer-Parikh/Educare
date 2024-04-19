@@ -9,6 +9,9 @@ const fontcolorTheme = createTheme({
         },
         blue:{
             main:'#ffc700' //yellow
+        },
+        primary:{
+            main:'#41424C'
         }
         
     },

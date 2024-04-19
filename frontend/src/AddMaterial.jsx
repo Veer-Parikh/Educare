@@ -34,13 +34,13 @@ function AddMaterial() {
         <div style={{ minHeight:'600px',overflowY: 'auto',height:'auto' }}>
             <CardContent style={{padding:'0px'}}>
             <Grid container>
-                <Card style={{width:'20%',minHeight:'800px',overflowY: 'auto',height:'auto', backgroundColor:'#000',borderRadius:'0px'}}>
+                <Card style={{width:'20%',minHeight:'800px',overflowY: 'auto',height:'auto',backgroundColor:'#1e1e1e',borderRadius:'15px',margin:'15px'}}>
                 <Grid item >
                     <TSideBar />
                 </Grid>
                 </Card>
-                <Card style={{width:'80%',minHeight:'800px',overflowY: 'auto',height:'auto', backgroundColor:'#F5F6FA'}}>
-                <Grid item>
+               
+                <Grid item style={{width:'78%',minHeight:'800px',overflowY: 'auto',height:'auto', backgroundColor:'#F5F6FA'}}>
                 {/* <Nav /> */}
                 <Typography style={{fontSize:'210%',fontWeight:700,marginTop:'20px',textAlign:'left',marginLeft:'30px', marginBottom:'30px'}}>Add Material</Typography>
 
@@ -78,7 +78,7 @@ function AddMaterial() {
                 </Card>
 
                 </Grid>
-                </Card>
+             
             </Grid>
             </CardContent>
         </div>
