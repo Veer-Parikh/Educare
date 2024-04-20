@@ -69,7 +69,7 @@ function Quiz() {
                             </Button>
 
                             {generateClicked && questionsAnswers.map((qa) => (
-                                <Card key={qa.id} style={{ marginBottom: '30px', padding: '20px', marginLeft: '40px', marginRight: '40px', borderRadius: '15px', height: '100%' }}>
+                                <Card key={qa.id} style={{ marginBottom: '30px', padding: '20px', marginLeft: '40px', marginRight: '40px', borderRadius: '15px', height: 'auto' }}>
                                     <Typography style={{ textAlign: 'center', fontWeight: 700, marginBottom: '5px' }}>Question</Typography>
                                     <Typography style={{ textAlign: 'left' }}>{qa.question}</Typography>
 
