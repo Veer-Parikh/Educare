@@ -4,12 +4,15 @@ import SSideBar from "./SSideBar";
 import AddIcon from '@mui/icons-material/Add';
 import Swal from "sweetalert2";
 import questionsAnswers from "./data.json";
+import physics from "./images/1.png";
+import chemistry from "./images/2.png";
+import biology from "./images/3.png";
 
 function Quiz() {
     const [uploadedFiles, setUploadedFiles] = useState([]);
-    const [generateClicked, setGenerateClicked] = useState(false); // State to track if the Generate Quiz button is clicked
-    const [userAnswers, setUserAnswers] = useState({}); // State to store user's answers
-    const [answerStatus, setAnswerStatus] = useState({}); // State to store the correctness status of user's answers
+    const [generateClicked, setGenerateClicked] = useState(false); 
+    const [userAnswers, setUserAnswers] = useState({}); 
+    const [answerStatus, setAnswerStatus] = useState({}); 
 
     const handleUpload = (event) => {
         const file = event.target.files[0];
@@ -21,8 +24,10 @@ function Quiz() {
         }
     };
 
-    const handleGenerateQuiz = () => {
-        setGenerateClicked(true); // Set the state to indicate that Generate Quiz button is clicked
+    const handleGenerateQuiz = (subject) => {
+        setGenerateClicked(true); 
+        const filteredQuestions = questionsAnswers.filter(qa => qa.subject === subject);
+        setUploadedFiles(filteredQuestions);
     };
 
     const handleAnswerChange = (event, questionId) => {
@@ -52,23 +57,31 @@ function Quiz() {
                    
                         <Grid item style={{width:'78%',minHeight:'800px',overflowY: 'auto',height:'auto', backgroundColor:'#F5F6FA'}}>
                             <Typography style={{ fontSize: '210%', fontWeight: 700, marginTop: '20px', textAlign: 'left', marginLeft: '30px', marginBottom: '30px' }}>Chapter Wise Quiz</Typography>
+                            
+                            <Typography style={{ fontWeight: 600, marginRight: '10px', fontSize: '105%',textAlign:'left',marginLeft:'45px',marginBottom:'20px' }}>Click on a subject to generate quiz:</Typography>
+                         
                             <div style={{ display: 'flex' }}>
                                 <div>
-                                    <Button name="banner" component="label" className="buttonText1" style={{ backgroundColor: '#ffc700', textDecoration: 'none', color: '#000', display: 'flex', justifyContent: 'flex-start', marginLeft: '40px', marginBottom: '20px', padding: '8px', width: '185px' }}>
-                                        <Typography style={{ fontWeight: 600, marginRight: '10px', fontSize: '105%' }}>Add Document</Typography>
-                                        <AddIcon />
-                                        <input id="banner-upload" type="file" onChange={handleUpload} inputProps={{ accept: "application/pdf, application/vnd.ms-powerpoint, application/vnd.openxmlformats-officedocument.presentationml.presentation, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document" }} style={{ display: 'none' }} />
+                                    <Button name="banner"  onClick={() => handleGenerateQuiz('physics')} component="label" className="buttonText1" style={{ backgroundColor: '#ffc700', textDecoration: 'none', color: '#000', display: 'flex', justifyContent: 'flex-start', marginLeft: '40px', marginBottom: '25px', padding: '8px', width: '246.5px' }}>
+                                    <img src={physics} style={{width:'230px'}} />
+                                    </Button>
+                                    </div>
+                                    <div>
+                                    <Button name="banner"  onClick={() => handleGenerateQuiz('chemistry')} component="label" className="buttonText1" style={{ backgroundColor: '#ffc700', textDecoration: 'none', color: '#000', display: 'flex', justifyContent: 'flex-start', marginLeft: '40px', marginBottom: '25px', padding: '8px', width: '246.5px' }}>
+                                    <img src={chemistry} style={{width:'230px'}} />
+                                    </Button>
+                                    </div>
+                                    <div>
+                                    <Button name="banner"  onClick={() => handleGenerateQuiz('biology')} component="label" className="buttonText1" style={{ backgroundColor: '#ffc700', textDecoration: 'none', color: '#000', display: 'flex', justifyContent: 'flex-start', marginLeft: '40px', marginBottom: '25px', padding: '8px', width: '246.5px' }}>
+                                    <img src={biology} style={{width:'230px'}} />
                                     </Button>
                                 </div>
-                                <div>
-                                    {uploadedFiles.length > 0 && <Typography className="formSubHeadings" style={{ textDecoration: 'underline', textAlign: 'left', marginLeft: '15px', marginTop: '10px' }}>Document uploaded</Typography>}
-                                </div>
+                                
                             </div>
-                            <Button name="banner" component="label" className="buttonText1" onClick={handleGenerateQuiz} style={{ backgroundColor: '#000', textDecoration: 'none', color: '#ffc700', display: 'flex', justifyContent: 'flex-start', marginLeft: '40px', marginBottom: '20px', padding: '8px', width: '155px' }}>
-                                <Typography style={{ fontWeight: 600, marginRight: '10px', fontSize: '105%' }}>Generate Quiz</Typography>
-                            </Button>
+                           
+                               
 
-                            {generateClicked && questionsAnswers.map((qa) => (
+                            {generateClicked && uploadedFiles.map((qa) => (
                                 <Card key={qa.id} style={{ marginBottom: '30px', padding: '20px', marginLeft: '40px', marginRight: '40px', borderRadius: '15px', height: 'auto' }}>
                                     <Typography style={{ textAlign: 'center', fontWeight: 700, marginBottom: '5px' }}>Question</Typography>
                                     <Typography style={{ textAlign: 'left' }}>{qa.question}</Typography>
