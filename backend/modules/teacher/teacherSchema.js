@@ -41,6 +41,9 @@ const teacherSchema = new schema({
         type:String,
         required:true
     }],
+    pdfs:[{
+        type:String
+    }]
     // TeacherStudent:{
     //     type:ObjectId,
     //     ref:'TeacherStudent'

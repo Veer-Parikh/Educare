@@ -113,6 +113,19 @@ const myProfile = async (req, res) => {
     }
 }
 
+const myProfile2 = async (req, res) => {
+    try {
+        const user = await User.findOne({ username: req.params.username });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        res.json(user);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+}
+
 const uploadpfp= async(req,res)=>{
     try {
         const result = await cloudinary.uploader.upload(req.file.path);
@@ -138,4 +151,4 @@ cloudinary.config({
     api_secret: "nzYw9Ll4H-L343skJ-E28k2K5zg",
 })
 
-module.exports = {register,login,updateuser,deluser,myProfile,displayAll,uploadpfp}
+module.exports = {register,login,updateuser,deluser,myProfile,myProfile2,displayAll,uploadpfp}

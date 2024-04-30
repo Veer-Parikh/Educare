@@ -107,19 +107,40 @@ const teacherProfile = async (req, res) => {
     }
 }
 
-const uploadpfp= async(req,res)=>{
+// const uploadpfp= async(req,res)=>{
+//     try {
+//         const result = await cloudinary.uploader.upload(req.file.path);
+//         const pfp = result.secure_url;
+
+//         const teacher = await Teacher.findOne({email:req.params.email}); ////
+//         teacher.pfp = pfp;
+//         await teacher.save();
+//         return res.send("Profile picture uploaded and saved.");
+//     } catch (error) {
+//         return res.status(500).send(error);
+//     }
+// }
+
+const uploadDoc = async (req, res) => {
     try {
         const result = await cloudinary.uploader.upload(req.file.path);
-        const pfp = result.secure_url;
+        const pdfUrl = result.secure_url;
 
-        const teacher = await Teacher.findOne({email:req.params.email}); ////
-        teacher.pfp = pfp;
+        const teacher = await Teacher.findOne({ email: req.params.email });
+        if (!teacher) {
+            return res.status(404).send("Teacher not found.");
+        }
+
+        // Add the new PDF URL to the existing array
+        teacher.pdfs.push(pdfUrl);
         await teacher.save();
-        return res.send("Profile picture uploaded and saved.");
+
+        return res.send("Document uploaded and saved.");
     } catch (error) {
         return res.status(500).send(error);
     }
 }
+
 
 cloudinary.config({
     cloud_name: "djnkpco73",
@@ -127,4 +148,4 @@ cloudinary.config({
     api_secret: "nzYw9Ll4H-L343skJ-E28k2K5zg",
 })
 
-module.exports = {register,login,updateTeacher,delTeacher,teacherProfile,displayAll,uploadpfp}
+module.exports = {register,login,updateTeacher,delTeacher,teacherProfile,displayAll,uploadDoc}
