@@ -8,7 +8,8 @@ router.post('/signup',register)
 router.post('/login',login)
 //user login you get token in the response
 router.get('/myProfile/:email',myProfile)
-//get your own profile by userid
+router.get('/myProfile/:username',myProfile)
+
 router.get('/display',displayAll)
 //get all students profiles
 router.patch('/update/:email',updateuser)
