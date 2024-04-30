@@ -127,7 +127,7 @@ function SignUpStudent() {
         <ThemeProvider theme={fontcolorTheme}>
         <Box sx={{ display: 'flex', flexDirection: 'row', height: 'auto' }}>
             {/* Left Container */}
-            <Container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '40%', height: 'auto', bgcolor: '#000000' }}>
+            <Container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '40%', height: 'auto', bgcolor: '#1e1e1e', borderRadius:'15px', margin:'12px'  }}>
                 <Container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', overflow: 'hidden' }}>
                     <img src={signup} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} alt="Sewing Machine" />
                 </Container>

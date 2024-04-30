@@ -35,15 +35,15 @@ function TeacherDashboard() {
     return(
 
         <div style={{ overflowY: 'auto' }}>
-            <CardContent style={{padding:'0px'}}>
+            <CardContent style={{padding:'0px', backgroundColor:'#F5F6FA'}}>
             <Grid container>
-                <Card style={{width:'20%',minHeight:'800px',overflowY: 'auto',height:'auto', backgroundColor:'#000',borderRadius:'0px'}}>
+                <Card style={{width:'20%',minHeight:'800px',overflowY: 'auto',height:'auto', backgroundColor:'#1e1e1e',borderRadius:'15px',margin:'15px'}}>
                 <Grid item >
                     <TSideBar />
                 </Grid>
                 </Card>
-                <Card style={{width:'80%',minHeight:'800px',overflowY: 'auto',height:'auto', backgroundColor:'#F5F6FA'}}>
-                <Grid item>
+               
+                <Grid item style={{width:'78%',minHeight:'800px',overflowY: 'auto',height:'auto', backgroundColor:'#F5F6FA'}}>
                 {/* <Nav /> */}
                 <Typography style={{fontSize:'210%',fontWeight:700,marginTop:'20px',textAlign:'left',marginLeft:'30px', marginBottom:'30px'}}>Profile</Typography>
 
@@ -51,7 +51,7 @@ function TeacherDashboard() {
                 <Grid container>
                 <Grid item xs={8}>
 
-                <Card style={{marginBottom:'30px',  paddingTop:'20px', marginLeft:'40px',marginRight:'40px',borderRadius:'5px',backgroundColor:'#000'}}>
+                <Card style={{marginBottom:'30px',  paddingTop:'20px', marginLeft:'40px',marginRight:'40px',borderRadius:'15px',backgroundColor:'#1e1e1e',height:'auto'}}>
                 <Grid container>
                 <Grid item xs={4}>
                 <Button  name="banner" component="label" className="buttonText1" style={{marginTop:'0px'}}>
@@ -80,7 +80,7 @@ function TeacherDashboard() {
                
 
                 <Grid item xs={4}>
-               <Card style={{marginBottom:'30px',  paddingTop:'20px', marginLeft:'10px',marginRight:'40px',borderRadius:'5px',backgroundColor:'#000',textAlign:'left',paddingLeft:'15px',fontWeight:700}}>
+               <Card style={{marginBottom:'30px',  paddingTop:'20px', marginLeft:'10px',marginRight:'40px',borderRadius:'15px',backgroundColor:'#1e1e1e',textAlign:'left',paddingLeft:'15px',fontWeight:700}}>
 
                 <Typography style={{textAlign:'left',marginLeft:'50px',marginBottom:'5px',fontWeight:500,color:'#fff'}}>Email</Typography>
                 <Card style={{marginBottom:'30px', padding:'10px', marginLeft:'40px',marginRight:'40px',borderRadius:'5px',backgroundColor:'#D3D3D3',textAlign:'left',paddingLeft:'15px',fontWeight:700}}>
@@ -101,24 +101,24 @@ function TeacherDashboard() {
                 </Card>
 
                 <Typography style={{textAlign:'left',marginLeft:'50px',marginBottom:'5px',fontWeight:500}}>Professional Summary</Typography>
-                <Card style={{marginBottom:'30px', padding:'10px', marginLeft:'40px',marginRight:'40px',borderRadius:'5px',height:'100%',backgroundColor:'#D3D3D3',textAlign:'left',paddingLeft:'15px',fontWeight:700}}>
+                <Card style={{marginBottom:'30px', padding:'10px', marginLeft:'40px',marginRight:'40px',borderRadius:'5px',height:'auto',backgroundColor:'#D3D3D3',textAlign:'left',paddingLeft:'15px',fontWeight:700}}>
                 <Typography>{profileData && profileData.desc}</Typography>   
                 </Card>
 
                 <Typography style={{textAlign:'left',marginLeft:'50px',marginBottom:'5px',fontWeight:500}}>Subjects</Typography>
-                <Card style={{marginBottom:'30px', padding:'10px', marginLeft:'40px',marginRight:'40px',borderRadius:'5px',height:'100%',backgroundColor:'#D3D3D3',textAlign:'left',paddingLeft:'15px',fontWeight:700}}>
+                <Card style={{marginBottom:'30px', padding:'10px', marginLeft:'40px',marginRight:'40px',borderRadius:'5px',height:'auto',backgroundColor:'#D3D3D3',textAlign:'left',paddingLeft:'15px',fontWeight:700}}>
                 <Typography>{profileData && profileData.subjects}</Typography> 
                 </Card>
 
                 <Typography style={{textAlign:'left',marginLeft:'50px',marginBottom:'5px',fontWeight:500}}>Experience (in yrs)</Typography>
-                <Card style={{marginBottom:'30px', padding:'10px', marginLeft:'40px',marginRight:'40px',borderRadius:'5px',height:'100%',backgroundColor:'#D3D3D3',textAlign:'left',paddingLeft:'15px',fontWeight:800}}>
+                <Card style={{marginBottom:'30px', padding:'10px', marginLeft:'40px',marginRight:'40px',borderRadius:'5px',height:'auto',backgroundColor:'#D3D3D3',textAlign:'left',paddingLeft:'15px',fontWeight:800}}>
                 <Typography>{profileData && profileData.exp}</Typography>   
                 </Card>
                 
             
            
                 </Grid>
-                </Card>
+           
             </Grid>
             </CardContent>
         </div>

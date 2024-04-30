@@ -44,13 +44,13 @@ function Quiz() {
         <div style={{ overflowY: 'auto' }}>
             <CardContent style={{ padding: '0px' }}>
                 <Grid container>
-                    <Card style={{ width: '20%', minHeight: '800px', overflowY: 'auto', height: 'auto', backgroundColor: '#000', borderRadius: '0px' }}>
+                    <Card style={{ width: '20%', minHeight: '800px', overflowY: 'auto', height: 'auto', backgroundColor: '#1e1e1e', borderRadius: '15px',margin:'15px' }}>
                         <Grid item>
                             <SSideBar />
                         </Grid>
                     </Card>
-                    <Card style={{ width: '80%', minHeight: '800px', overflowY: 'auto', height: 'auto', backgroundColor: '#F5F6FA' }}>
-                        <Grid item>
+                   
+                        <Grid item style={{width:'78%',minHeight:'800px',overflowY: 'auto',height:'auto', backgroundColor:'#F5F6FA'}}>
                             <Typography style={{ fontSize: '210%', fontWeight: 700, marginTop: '20px', textAlign: 'left', marginLeft: '30px', marginBottom: '30px' }}>Chapter Wise Quiz</Typography>
                             <div style={{ display: 'flex' }}>
                                 <div>
@@ -69,7 +69,7 @@ function Quiz() {
                             </Button>
 
                             {generateClicked && questionsAnswers.map((qa) => (
-                                <Card key={qa.id} style={{ marginBottom: '30px', padding: '20px', marginLeft: '40px', marginRight: '40px', borderRadius: '15px', height: '100%' }}>
+                                <Card key={qa.id} style={{ marginBottom: '30px', padding: '20px', marginLeft: '40px', marginRight: '40px', borderRadius: '15px', height: 'auto' }}>
                                     <Typography style={{ textAlign: 'center', fontWeight: 700, marginBottom: '5px' }}>Question</Typography>
                                     <Typography style={{ textAlign: 'left' }}>{qa.question}</Typography>
 
@@ -88,7 +88,7 @@ function Quiz() {
                                 </Card>
                             ))}
                         </Grid>
-                    </Card>
+
                 </Grid>
             </CardContent>
         </div>

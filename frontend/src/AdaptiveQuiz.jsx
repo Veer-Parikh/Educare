@@ -134,13 +134,13 @@ function AdaptiveQuiz() {
       <div style={{ overflowY: 'auto' }}>
         <CardContent style={{ padding: '0px' }}>
           <Grid container>
-            <Card style={{ width: '20%', minHeight: '800px', overflowY: 'auto', height: 'auto', backgroundColor: '#000', borderRadius: '0px' }}>
+            <Card style={{ width: '20%', minHeight: '800px', overflowY: 'auto', height: 'auto', backgroundColor: '#1e1e1e', borderRadius: '15px',margin:'15px' }}>
               <Grid item>
                 <SSideBar />
               </Grid>
             </Card>
-            <Card style={{ width: '80%', minHeight: '800px', overflowY: 'auto', height: 'auto', backgroundColor: '#F5F6FA' }}>
-              <Grid item>
+          
+              <Grid item style={{width:'78%',minHeight:'800px',overflowY: 'auto',height:'auto', backgroundColor:'#F5F6FA'}}>
                 <Typography style={{ fontSize: '210%', fontWeight: 700, marginTop: '20px', textAlign: 'left', marginLeft: '30px', marginBottom: '30px' }}>Pace of Learning</Typography>
 
                 {/* Display current question */}
@@ -160,8 +160,8 @@ function AdaptiveQuiz() {
 
                 {/* Display answer buttons */}
                 <div>
-                  <Button onClick={() => handleAnswer(true)} variant="contained" color="primary" style={{ marginRight: '10px' }}>True</Button>
-                  <Button onClick={() => handleAnswer(false)} variant="contained" color="primary">False</Button>
+                  <Button onClick={() => handleAnswer(true)} variant="contained"  style={{ marginRight: '10px',backgroundColor:'#ffc700',color:'#000' }}>True</Button>
+                  <Button onClick={() => handleAnswer(false)} variant="contained" style={{backgroundColor:'#ffc700',color:'#000'}}>False</Button>
                 </div>
 
                 {/* Display total correct answers */}
@@ -169,7 +169,7 @@ function AdaptiveQuiz() {
                   Total Correct Answers: {correctAnswers}
                 </Typography>
               </Grid>
-            </Card>
+       
           </Grid>
         </CardContent>
       </div>
