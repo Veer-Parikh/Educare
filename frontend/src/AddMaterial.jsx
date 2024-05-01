@@ -1,34 +1,50 @@
 import React from "react";
-import { useState } from "react";
+import { useState,useContext } from "react";
 import { Button, Card, CardContent, Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import TSideBar from "./TSideBar";
 import AddIcon from '@mui/icons-material/Add';
 import Swal from "sweetalert2";
+import EmailContext from "./EmailContext";
+import axios from "axios";
 
 function AddMaterial() {
 
     const[uploadedFiles, setUploadedFiles] = useState([]);
+    const { email } = useContext(EmailContext);
 
-    const handleUpload = (event) => {
+    const handleUpload = async (event) => {
         const file = event.target.files[0];
         if (file) {
             const currentDate = new Date();
-
             const newFile = {
                 name: file.name,
                 date: currentDate.toLocaleDateString(),
                 time: currentDate.toLocaleTimeString()
             };
-          
             setUploadedFiles([...uploadedFiles, newFile]);
 
-            Swal.fire({
-                text: "File Uploaded",
-                icon: "success"
-            });
+            try {
+                const formData = new FormData();
+                formData.append('pdf', file);
+                // Change the URL to your server endpoint
+                await axios.post(`http://localhost:5000/teacher/uploadDoc/${email}`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                Swal.fire({
+                    text: "File Uploaded",
+                    icon: "success"
+                });
+            } catch (error) {
+                console.error('Error uploading file:', error);
+                Swal.fire({
+                    text: "Failed to upload file",
+                    icon: "error"
+                });
+            }
         }
-      };
-    
+    };
     return(
 
         <div style={{ minHeight:'600px',overflowY: 'auto',height:'auto' }}>

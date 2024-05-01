@@ -103,11 +103,11 @@ function LoginStudent() {
                         {/* First Column */}
                         <Grid item xs={12} style={{marginRight:'50px'}}>
                         <FormControl sx={{ mb:'20px' }}>
-                            <FormLabel sx={{ textAlign: "left" }}>Email</FormLabel>
+                            <FormLabel sx={{ textAlign: "left" }}>Username</FormLabel>
                                 <Input
-                                    name="email"
-                                    type="email"
-                                    placeholder="Enter email"
+                                    name="username"
+                                    type="text"
+                                    placeholder="Enter username"
                                     onChange={handleUsernameChange}
                                     sx={{ backgroundColor: '#f0f0f0', width: '130%' , padding:'5px'}}
                                 />

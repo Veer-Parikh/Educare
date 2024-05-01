@@ -9,8 +9,8 @@ import UsernameContext from './UsernameContext';
 function StudentDashboard() {
 
     const [isPictureUploaded, setIsPictureUploaded] = useState(false);
-   
-    const { username } = useContext(UsernameContext); // Get username from UsernameContext
+    const { username } = useContext(UsernameContext);
+
 
       const [studentData, setStudentData] = useState(null);
   

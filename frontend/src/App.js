@@ -21,6 +21,7 @@ import ScopeReco from "./ScopeRec";
 import TTRecomed from "./TimeTableRec";
 import Recommendations from "./MaterialRec";
 import AdaptiveQuiz from "./AdaptiveQuiz";
+import Resources from "./Resources";
 function App() {
 
  
@@ -41,6 +42,7 @@ function App() {
             <Route path="/addstudents" element={<AddStudents />} />
             <Route path="/addmaterial" element={<AddMaterial/>} />
             <Route path="/quiz" element={<Quiz/>} />
+            <Route path="/resources" element={<Resources />} />
             <Route path="/adaptive" element={<AdaptiveQuiz/>} />
             <Route path="/loginTeacher" element={<LoginTeacher/>} />
             <Route path="/signupTeacher" element={<SignUpTeacher/>} />
