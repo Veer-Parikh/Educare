@@ -18,7 +18,7 @@ function StudentDashboard() {
         console.log("student username:" ,username);
           if (username) {
               // Fetch profile data from the server using the username
-              axios.get(`http://localhost:5000/user/my/${username}`)
+              axios.get(`http://localhost:5000/user/my/john_doe`)
                   .then(response => {
                       // Update state with fetched profile data
                       setStudentData(response.data);
