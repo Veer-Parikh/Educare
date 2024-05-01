@@ -8,7 +8,7 @@ import fontcolorTheme from "./fontColorTheme";
 import { Button, Typography, FormControl, FormLabel, Input, Grid, Select, MenuItem,Link } from "@mui/material";
 import logo from "./images/educare.png";
 import axios from "axios";
-import EmailContext from './EmailContext';
+import UsernameContext from './UsernameContext';
 import login from "./images/login.png";
 
 
@@ -19,7 +19,7 @@ function LoginStudent() {
 
     const [error, setError] = useState(null);
     
-    const { email, setEmail } = useContext(EmailContext);
+    const { username, setUsername } = useContext(UsernameContext);
 
     const handleLogin = async (event) => {
         event.preventDefault();
@@ -27,7 +27,7 @@ function LoginStudent() {
         try {
           // Send login request to server
           const response = await axios.post('http://localhost:5000/user/login', {
-            email,
+            username,
             password,
           });
     
@@ -45,8 +45,8 @@ function LoginStudent() {
         setPassword(event.target.value)
       };
 
-      const handleEmailChange = (event) => {
-        setEmail(event.target.value)
+      const handleUsernameChange = (event) => {
+        setUsername(event.target.value)
       };
 
    
@@ -108,7 +108,7 @@ function LoginStudent() {
                                     name="email"
                                     type="email"
                                     placeholder="Enter email"
-                                    onChange={handleEmailChange}
+                                    onChange={handleUsernameChange}
                                     sx={{ backgroundColor: '#f0f0f0', width: '130%' , padding:'5px'}}
                                 />
                             </FormControl>

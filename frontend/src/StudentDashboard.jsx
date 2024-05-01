@@ -3,35 +3,35 @@ import { Button, Card, CardContent, Grid, Typography } from "@mui/material";
 import SSideBar from "./SSideBar";
 import camera from "./images/camera.png";
 import axios from "axios";
-import EmailContext from './EmailContext';
+import UsernameContext from './UsernameContext';
 
 
 function StudentDashboard() {
 
     const [isPictureUploaded, setIsPictureUploaded] = useState(false);
    
-    const { email } = useContext(EmailContext); // Get email from EmailContext
+    const { username } = useContext(UsernameContext); // Get username from UsernameContext
 
-      const [profileData, setProfileData] = useState(null);
+      const [studentData, setStudentData] = useState(null);
   
       useEffect(() => {
-        console.log("emailll:" ,email);
-          if (email) {
-              // Fetch profile data from the server using the email
-              axios.get(`http://localhost:5000/user/myProfile/${email}`)
+        console.log("student username:" ,username);
+          if (username) {
+              // Fetch profile data from the server using the username
+              axios.get(`http://localhost:5000/user/my/${username}`)
                   .then(response => {
                       // Update state with fetched profile data
-                      setProfileData(response.data);
+                      setStudentData(response.data);
                   })
                   .catch(error => {
                       console.error('Error fetching profile data:', error);
                   });
           }
-      }, [email]);
+      }, [username]);
 
       const handleClick = () => {
-        console.log(email);
-        console.log(profileData);
+        console.log(username);
+        console.log(studentData);
       }
    
 
@@ -69,12 +69,12 @@ function StudentDashboard() {
                 <Grid item xs={8}>
                 <Typography style={{textAlign:'left',marginLeft:'50px',marginBottom:'5px',fontWeight:500,color:'#fff'}}>Full Name</Typography>
                 <Card style={{marginBottom:'30px', padding:'20px', marginLeft:'40px',marginRight:'40px',borderRadius:'5px',textAlign:'left',paddingLeft:'15px',backgroundColor:'#D3D3D3'}}>
-                <Typography>{profileData && profileData.fullname}</Typography>
+                <Typography>{studentData && studentData.fullname}</Typography>
                 </Card>
 
                 <Typography style={{textAlign:'left',marginLeft:'50px',marginBottom:'5px',fontWeight:500,color:'#fff'}}>Student ID</Typography> 
                 <Card style={{marginBottom:'30px', padding:'20px', marginLeft:'40px',marginRight:'40px',borderRadius:'5px',textAlign:'left',paddingLeft:'15px',backgroundColor:'#D3D3D3'}}>
-                <Typography>{profileData && profileData.rollNo}</Typography>
+                <Typography>{studentData && studentData.rollNo}</Typography>
                 </Card>
                 </Grid>
                 </Grid>
@@ -89,11 +89,11 @@ function StudentDashboard() {
 
                 <Typography style={{textAlign:'left',marginLeft:'50px',marginBottom:'5px',fontWeight:500,color:'#fff'}}>Email</Typography>
                 <Card style={{marginBottom:'30px', padding:'20px', marginLeft:'40px',marginRight:'40px',borderRadius:'5px',textAlign:'left',paddingLeft:'15px',backgroundColor:'#D3D3D3'}}>
-                <Typography>{profileData && profileData.email}</Typography>
+                <Typography>{studentData && studentData.email}</Typography>
                 </Card>
                 <Typography style={{textAlign:'left',marginLeft:'50px',marginBottom:'5px',fontWeight:500,color:'#fff'}}>Phone Number</Typography> 
                 <Card style={{marginBottom:'30px', padding:'20px', marginLeft:'40px',marginRight:'40px',borderRadius:'5px',textAlign:'left',paddingLeft:'15px',backgroundColor:'#D3D3D3'}}>
-                <Typography>{profileData && profileData.phone}</Typography>
+                <Typography>{studentData && studentData.phone}</Typography>
                  </Card>
                  </Card>
 
@@ -110,32 +110,32 @@ function StudentDashboard() {
                 </Grid>
                 <Typography style={{textAlign:'left',marginLeft:'50px',marginBottom:'5px',fontWeight:500}}>School Name</Typography> 
                 <Card style={{marginBottom:'30px', padding:'20px', marginLeft:'40px',marginRight:'40px',borderRadius:'5px',textAlign:'left',paddingLeft:'15px',backgroundColor:'#D3D3D3'}}> 
-                <Typography>{profileData && profileData.schoolName}</Typography>
+                <Typography>{studentData && studentData.schoolName}</Typography>
                 </Card>
 
                <Grid container>
                 <Grid item xs={6}>
                 <Typography style={{textAlign:'left',marginLeft:'50px',marginBottom:'5px',fontWeight:500}}>Board</Typography>
                 <Card style={{marginBottom:'30px', padding:'20px', marginLeft:'40px',marginRight:'40px',borderRadius:'5px',textAlign:'left',paddingLeft:'15px',backgroundColor:'#D3D3D3'}}>
-                <Typography>{profileData && profileData.board}</Typography>    
+                <Typography>{studentData && studentData.board}</Typography>    
                 </Card>
                 </Grid>
                 <Grid item xs={6}>
                 <Typography style={{textAlign:'left',marginLeft:'50px',marginBottom:'5px',fontWeight:500}}>Standard</Typography>
                 <Card style={{marginBottom:'30px', padding:'20px', marginLeft:'40px',marginRight:'40px',borderRadius:'5px',textAlign:'left',paddingLeft:'15px',backgroundColor:'#D3D3D3'}}>
-                <Typography>{profileData && profileData.standard}</Typography>  
+                <Typography>{studentData && studentData.standard}</Typography>  
                 </Card>
                 </Grid>
                 </Grid>
 
                 <Typography style={{textAlign:'left',marginLeft:'50px',marginBottom:'5px',fontWeight:500}}>Description</Typography>
                 <Card style={{marginBottom:'30px',height:'auto', padding:'20px', marginLeft:'40px',marginRight:'40px',borderRadius:'5px',textAlign:'left',paddingLeft:'15px',backgroundColor:'#D3D3D3'}}>
-                <Typography>{profileData && profileData.desc}</Typography>
+                <Typography>{studentData && studentData.desc}</Typography>
                 </Card>
            
                 <Typography style={{textAlign:'left',marginLeft:'50px',marginBottom:'5px',fontWeight:500}}>Interests</Typography>
                 <Card style={{marginBottom:'30px', padding:'20px', marginLeft:'40px',marginRight:'40px',borderRadius:'5px',height:'auto',textAlign:'left',paddingLeft:'15px',backgroundColor:'#D3D3D3'}}>
-                <Typography>{profileData && profileData.interest}</Typography>
+                <Typography>{studentData && studentData.interest}</Typography>
                 </Card>
 
                 </Grid>

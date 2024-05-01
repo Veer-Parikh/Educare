@@ -14,6 +14,7 @@ import StudentDashboard from "./StudentDashboard";
 import AddMaterial from "./AddMaterial";
 import Quiz from "./Quiz"
 import { EmailProvider } from './EmailContext';
+import { UsernameProvider } from "./UsernameContext";
 import OtherComponent from "./OtherComponent";
 import Performance from "./Performance";
 import ScopeReco from "./ScopeRec";
@@ -27,6 +28,7 @@ function App() {
     <div className="App">
       
        <ThemeProvider theme={fontcolorTheme}>
+        <UsernameProvider>
        <EmailProvider>
          <Router> 
           <Routes>
@@ -48,6 +50,7 @@ function App() {
           </Routes>
         </Router>
         </EmailProvider>
+        </UsernameProvider>
         </ThemeProvider>
         
     </div>
