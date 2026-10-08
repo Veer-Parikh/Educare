@@ -6,32 +6,31 @@ import { Button } from "@/components/ui/button";
 import { Field, Input } from "@/components/ui/input";
 import { AuthLayout } from "./AuthLayout";
 
-// Accounts created by `npm run seed` (and pre-loaded by `npm run demo`).
-const DEMO_PASSWORD = "educare123";
+// The demo runs entirely in the browser (src/demo), so it works without the API.
 const DEMO_ACCOUNTS = [
-  { key: "teacher", label: "Teacher", email: "teacher@educare.dev", icon: Presentation },
-  { key: "student", label: "Student", email: "aarav@educare.dev", icon: GraduationCap },
+  { role: "TEACHER", label: "Teacher", icon: Presentation },
+  { role: "STUDENT", label: "Student", icon: GraduationCap },
 ];
 
 export default function Login() {
-  const { login } = useAuth();
+  const { login, startDemo } = useAuth();
   const navigate = useNavigate();
   const [params] = useSearchParams();
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
   const [error, setError] = useState("");
-  const [busy, setBusy] = useState(null); // "form" | demo account key
+  const [busy, setBusy] = useState(null); // "form" | demo role
 
-  const signIn = async (source, id, pw) => {
+  const run = async (source, signIn) => {
     setError("");
     setBusy(source);
     try {
-      await login(id, pw);
+      await signIn();
       const next = params.get("next");
       navigate(next && next.startsWith("/app") ? next : "/app", { replace: true });
     } catch (err) {
-      setError(source !== "form" && err.status === 401 ? "Demo accounts aren't set up on this server yet. Run npm run seed in the backend." : err.message);
+      setError(err.message);
     } finally {
       setBusy(null);
     }
@@ -39,7 +38,7 @@ export default function Login() {
 
   const submit = (e) => {
     e.preventDefault();
-    signIn("form", identifier.trim(), password);
+    run("form", () => login(identifier.trim(), password));
   };
 
   return (
@@ -82,13 +81,14 @@ export default function Login() {
           <span className="h-px flex-1 bg-border" />
         </div>
         <div className="mt-4 grid grid-cols-2 gap-3">
-          {DEMO_ACCOUNTS.map(({ key, label, email, icon: Icon }) => (
-            <Button key={key} type="button" variant="secondary" size="lg" loading={busy === key} disabled={Boolean(busy)} onClick={() => signIn(key, email, DEMO_PASSWORD)}>
-              {busy === key ? null : <Icon />}
+          {DEMO_ACCOUNTS.map(({ role, label, icon: Icon }) => (
+            <Button key={role} type="button" variant="secondary" size="lg" loading={busy === role} disabled={Boolean(busy)} onClick={() => run(role, () => startDemo(role))}>
+              {busy === role ? null : <Icon />}
               {label}
             </Button>
           ))}
         </div>
+        <p className="mt-3 text-center text-xs text-faint">Runs entirely in your browser with sample data — no account or server needed.</p>
       </div>
     </AuthLayout>
   );

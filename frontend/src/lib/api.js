@@ -2,6 +2,7 @@
 // - attaches the bearer token and the browser's timezone (used for streaks)
 // - normalises errors into ApiError with the server's human-readable message
 // - supports JSON bodies, FormData uploads and server-sent-event streams
+// - demo sessions (token "demo.<id>") are answered in the browser by src/demo, no server needed
 
 const BASE = (import.meta.env.VITE_API_URL ?? "").replace(/\/$/, "");
 const TOKEN_KEY = "educare.token";
@@ -37,6 +38,22 @@ export function setToken(value) {
 }
 export const getToken = () => token;
 
+/** True when signed in to the in-browser demo rather than a real account. */
+export const isDemoSession = () => typeof token === "string" && token.startsWith("demo.");
+
+let demoModule = null;
+/** Lazy-load the demo backend so it never weighs down normal sessions. */
+export const loadDemo = () => (demoModule ??= import("../demo/index.js"));
+
+/** Convert a demo-backend failure into the ApiError the UI expects. */
+function demoError(err) {
+  if (err?.name === "AbortError") return err;
+  if (!err?.status) console.error("[demo]", err);
+  const e = new ApiError(err?.status ?? 500, err?.status ? err.message : "Something went wrong in the demo.", err?.details);
+  if (e.status === 401) onUnauthorized();
+  return e;
+}
+
 const timezone = (() => {
   try {
     return Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -63,6 +80,14 @@ async function parseError(res) {
 }
 
 async function request(method, path, { body, form, signal } = {}) {
+  if (isDemoSession()) {
+    const demo = await loadDemo();
+    try {
+      return await demo.handle(method, path, { body, form, signal, token });
+    } catch (err) {
+      throw demoError(err);
+    }
+  }
   let res;
   try {
     res = await fetch(`${BASE}/api${path}`, {
@@ -117,6 +142,15 @@ export function toForm(fields = {}, files = {}) {
  * @param {{ onEvent: (event: string, data: any) => void, signal?: AbortSignal }} handlers
  */
 export async function streamSSE(path, form, { onEvent, signal }) {
+  if (isDemoSession()) {
+    const demo = await loadDemo();
+    try {
+      return await demo.stream(path, form, { token, onEvent, signal });
+    } catch (err) {
+      if (err?.name === "AbortError") return;
+      throw demoError(err);
+    }
+  }
   let res;
   try {
     res = await fetch(`${BASE}/api${path}`, { method: "POST", headers: headers({ Accept: "text/event-stream" }), body: form, signal });

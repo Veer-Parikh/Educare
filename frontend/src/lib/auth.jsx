@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { api, getToken, setToken, setUnauthorizedHandler } from "./api";
+import { api, getToken, isDemoSession, loadDemo, setToken, setUnauthorizedHandler } from "./api";
 
 const AuthContext = createContext(null);
 
@@ -52,6 +52,16 @@ export function AuthProvider({ children }) {
 
   const login = useCallback(async (identifier, password) => acceptSession(await api.post("/auth/login", { identifier, password })), [acceptSession]);
 
+  /** Sign in to the in-browser demo as "TEACHER" or "STUDENT" — works with no backend. */
+  const startDemo = useCallback(async (role) => acceptSession((await loadDemo()).startDemo(role)), [acceptSession]);
+
+  /** Restore the demo's data to its starting state and refresh the signed-in user. */
+  const resetDemo = useCallback(async () => {
+    (await loadDemo()).resetDemo();
+    const role = user?.role ?? "STUDENT";
+    return acceptSession((await loadDemo()).startDemo(role));
+  }, [acceptSession, user?.role]);
+
   const register = useCallback(
     async (data) => acceptSession(await api.post("/auth/register", { ...data, timezone: Intl.DateTimeFormat().resolvedOptions().timeZone })),
     [acceptSession],
@@ -63,13 +73,16 @@ export function AuthProvider({ children }) {
       status,
       isTeacher: user?.role === "TEACHER",
       isStudent: user?.role === "STUDENT",
+      isDemo: Boolean(user) && isDemoSession(),
       login,
+      startDemo,
+      resetDemo,
       register,
       logout,
       refresh,
       setUser,
     }),
-    [user, status, login, register, logout, refresh],
+    [user, status, login, startDemo, resetDemo, register, logout, refresh],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

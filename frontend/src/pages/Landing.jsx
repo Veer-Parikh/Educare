@@ -1,4 +1,5 @@
-import { Link } from "react-router";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router";
 import { motion } from "motion/react";
 import {
   ArrowRight,
@@ -128,6 +129,36 @@ function FeatureGrid({ items }) {
   );
 }
 
+/** One-click entry to the in-browser demo (no account or server needed). */
+function DemoLinks() {
+  const { startDemo } = useAuth();
+  const navigate = useNavigate();
+  const [busy, setBusy] = useState(null);
+  const go = async (role) => {
+    setBusy(role);
+    try {
+      await startDemo(role);
+      navigate("/app");
+    } finally {
+      setBusy(null);
+    }
+  };
+  const cls = "font-medium text-fg underline decoration-brand-500 decoration-2 underline-offset-4 hover:decoration-brand-600 disabled:opacity-50";
+  return (
+    <p className="mt-4 text-sm text-muted">
+      Just looking? Try the live demo as a{" "}
+      <button type="button" className={cls} disabled={Boolean(busy)} onClick={() => go("TEACHER")}>
+        {busy === "TEACHER" ? "loading…" : "teacher"}
+      </button>{" "}
+      or a{" "}
+      <button type="button" className={cls} disabled={Boolean(busy)} onClick={() => go("STUDENT")}>
+        {busy === "STUDENT" ? "loading…" : "student"}
+      </button>
+      .
+    </p>
+  );
+}
+
 export default function Landing() {
   const { status } = useAuth();
   const { resolved, toggle } = useTheme();
@@ -194,6 +225,7 @@ export default function Landing() {
                 </Button>
               ) : null}
             </motion.div>
+            {!authed ? <DemoLinks /> : null}
             <p className="mt-6 text-xs text-faint">Free for classrooms · Works on any device · Sign in with email or SAP ID</p>
           </div>
           <Preview />

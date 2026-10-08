@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { Sidebar } from "./Sidebar";
 import { Topbar } from "./Topbar";
 import { CommandPalette } from "./CommandPalette";
+import { DemoBanner } from "./DemoBanner";
 import { PageSpinner } from "@/components/ui/spinner";
 
 const COLLAPSE_KEY = "educare.sidebar.collapsed";
@@ -54,6 +55,7 @@ export function AppShell() {
       </D.Root>
 
       <div className="flex min-w-0 flex-1 flex-col">
+        <DemoBanner />
         <Topbar onOpenNav={() => setMobileOpen(true)} onOpenSearch={() => setPaletteOpen(true)} />
         <main className={cn("flex-1", fullBleed ? "" : "mx-auto w-full max-w-7xl px-4 py-6 md:px-8 md:py-8")}>
           <Suspense fallback={<PageSpinner />}>
