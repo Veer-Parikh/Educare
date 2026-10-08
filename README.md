@@ -39,6 +39,7 @@ npm run dev               # http://localhost:5173
 ```
 
 Demo logins (password `educare123`): `teacher@educare.dev`, `aarav@educare.dev`, `meera@educare.dev`. You can also sign in with a SAP ID, for example `60001`.
+The sign-in page also has one-click **Teacher** and **Student** demo buttons.
 
 Demo data lives in memory and is reset every time you restart.
 
