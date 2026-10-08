@@ -1,0 +1,543 @@
+// EduCare v2 data model (MongoDB).
+//
+// Collections are mapped to lowercase names so they never collide with the
+// v1 hackathon collections (Student, Teacher, Team, ...), which are left untouched.
+//
+// Referential actions: Prisma emulates them on MongoDB and forbids multiple
+// cascade paths, so cascades only follow the container hierarchy
+// (Classroom -> Assignment -> Submission, Deck -> Card, ...). Relations back to
+// User are NoAction.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  TEACHER
+  STUDENT
+}
+
+// ---------------------------------------------------------------------------
+// Embedded (composite) types
+// ---------------------------------------------------------------------------
+
+type FileRef {
+  url      String
+  name     String
+  mimeType String?
+  size     Int?
+  /// storage locator: "local:<relative path>" or "cloudinary:<resourceType>:<publicId>"
+  key      String?
+}
+
+type RubricCriterion {
+  id          String
+  title       String
+  description String?
+  points      Float
+}
+
+type CriterionScore {
+  criterionId String
+  score       Float
+  comment     String?
+}
+
+type AiGradeDraft {
+  score        Float
+  feedback     String
+  rubricScores CriterionScore[]
+  strengths    String[]
+  improvements String[]
+  confidence   String?
+  model        String?
+  generatedAt  DateTime
+}
+
+type QuizQuestion {
+  id          String
+  /// mcq | truefalse | short
+  type        String
+  prompt      String
+  options     String[]
+  answerIndex Int?
+  answerText  String?
+  explanation String?
+  concept     String?
+  difficulty  String?
+  points      Float
+}
+
+type QuizAnswer {
+  questionId  String
+  choiceIndex Int?
+  text        String?
+  correct     Boolean
+  points      Float
+  feedback    String?
+}
+
+type Resource {
+  title String
+  /// video | article | book | course | practice | docs | project
+  type  String
+  url   String?
+  note  String?
+}
+
+type Milestone {
+  id          String
+  week        Int
+  title       String
+  description String?
+  topics      String[]
+  resources   Resource[]
+  project     String?
+  done        Boolean
+  completedAt DateTime?
+}
+
+type Concept {
+  term       String
+  definition String
+}
+
+// ---------------------------------------------------------------------------
+// Identity
+// ---------------------------------------------------------------------------
+
+model User {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  email         String   @unique
+  passwordHash  String
+  name          String
+  role          Role
+  sapId         String?
+  institution   String?
+  bio           String?
+  avatarUrl     String?
+  timezone      String?
+  xp            Int      @default(0)
+  streak        Int      @default(0)
+  longestStreak Int      @default(0)
+  lastActiveDay String?
+  dailyGoalXp   Int      @default(60)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  classesTaught Classroom[]      @relation("ClassTeacher")
+  memberships   Membership[]
+  announcements Announcement[]
+  materials     Material[]
+  assignments   Assignment[]
+  submissions   Submission[]     @relation("SubmissionStudent")
+  graded        Submission[]     @relation("SubmissionGrader")
+  quizzes       Quiz[]
+  attempts      QuizAttempt[]
+  mastery       ConceptMastery[]
+  decks         Deck[]
+  cards         Card[]
+  conversations Conversation[]
+  roadmaps      Roadmap[]
+  studySets     StudySet[]
+  artifacts     Artifact[]
+  sessions      LiveSession[]
+  notifications Notification[]
+  activities    Activity[]
+
+  @@index([sapId])
+  @@map("users")
+}
+
+// ---------------------------------------------------------------------------
+// Classes
+// ---------------------------------------------------------------------------
+
+model Classroom {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  subject     String?
+  section     String?
+  description String?
+  code        String   @unique
+  theme       String   @default("amber")
+  archived    Boolean  @default(false)
+  teacherId   String   @db.ObjectId
+  teacher     User     @relation("ClassTeacher", fields: [teacherId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  members       Membership[]
+  announcements Announcement[]
+  materials     Material[]
+  assignments   Assignment[]
+  quizzes       Quiz[]
+  sessions      LiveSession[]
+  conversations Conversation[]
+
+  @@index([teacherId])
+  @@map("classrooms")
+}
+
+model Membership {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  classroomId String    @db.ObjectId
+  classroom   Classroom @relation(fields: [classroomId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  userId      String    @db.ObjectId
+  user        User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  joinedAt    DateTime  @default(now())
+
+  @@unique([classroomId, userId])
+  @@index([userId])
+  @@map("memberships")
+}
+
+model Announcement {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  classroomId String    @db.ObjectId
+  classroom   Classroom @relation(fields: [classroomId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  authorId    String    @db.ObjectId
+  author      User      @relation(fields: [authorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  body        String
+  pinned      Boolean   @default(false)
+  attachments FileRef[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([classroomId, createdAt])
+  @@map("announcements")
+}
+
+model Material {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  classroomId String    @db.ObjectId
+  classroom   Classroom @relation(fields: [classroomId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  uploaderId  String    @db.ObjectId
+  uploader    User      @relation(fields: [uploaderId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  title       String
+  description String?
+  /// file | link | note
+  kind        String
+  file        FileRef?
+  url         String?
+  /// Plain text used to ground AI features (tutor, quizzes, studio).
+  text        String?
+  /// none | pending | ready | failed
+  textStatus  String    @default("none")
+  charCount   Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([classroomId, createdAt])
+  @@map("materials")
+}
+
+model Assignment {
+  id           String            @id @default(auto()) @map("_id") @db.ObjectId
+  classroomId  String            @db.ObjectId
+  classroom    Classroom         @relation(fields: [classroomId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  authorId     String            @db.ObjectId
+  author       User              @relation(fields: [authorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  title        String
+  instructions String?
+  dueAt        DateTime?
+  points       Float             @default(100)
+  rubric       RubricCriterion[]
+  attachments  FileRef[]
+  allowLate    Boolean           @default(true)
+  /// Students may request AI feedback on a draft before submitting.
+  aiFeedback   Boolean           @default(true)
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+
+  submissions Submission[]
+
+  @@index([classroomId, dueAt])
+  @@map("assignments")
+}
+
+model Submission {
+  id           String           @id @default(auto()) @map("_id") @db.ObjectId
+  assignmentId String           @db.ObjectId
+  assignment   Assignment       @relation(fields: [assignmentId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  studentId    String           @db.ObjectId
+  student      User             @relation("SubmissionStudent", fields: [studentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  text         String?
+  attachments  FileRef[]
+  /// submitted | graded
+  status       String           @default("submitted")
+  late         Boolean          @default(false)
+  submittedAt  DateTime         @default(now())
+  score        Float?
+  feedback     String?
+  rubricScores CriterionScore[]
+  gradedAt     DateTime?
+  gradedById   String?          @db.ObjectId
+  gradedBy     User?            @relation("SubmissionGrader", fields: [gradedById], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  aiDraft      AiGradeDraft?
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+
+  @@unique([assignmentId, studentId])
+  @@index([studentId])
+  @@map("submissions")
+}
+
+model LiveSession {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  classroomId String    @db.ObjectId
+  classroom   Classroom @relation(fields: [classroomId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  hostId      String    @db.ObjectId
+  host        User      @relation(fields: [hostId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  title       String
+  description String?
+  startsAt    DateTime
+  durationMin Int       @default(60)
+  meetingUrl  String
+  createdAt   DateTime  @default(now())
+
+  @@index([classroomId, startsAt])
+  @@map("live_sessions")
+}
+
+// ---------------------------------------------------------------------------
+// Practice & learning
+// ---------------------------------------------------------------------------
+
+model Quiz {
+  id           String         @id @default(auto()) @map("_id") @db.ObjectId
+  ownerId      String         @db.ObjectId
+  owner        User           @relation(fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  /// Set when a teacher publishes the quiz to a class.
+  classroomId  String?        @db.ObjectId
+  classroom    Classroom?     @relation(fields: [classroomId], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  title        String
+  topic        String?
+  description  String?
+  difficulty   String         @default("mixed")
+  /// topic | material | text | studio | paper | manual
+  source       String         @default("topic")
+  questions    QuizQuestion[]
+  published    Boolean        @default(false)
+  dueAt        DateTime?
+  timeLimitMin Int?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  attempts QuizAttempt[]
+
+  @@index([ownerId, createdAt])
+  @@index([classroomId])
+  @@map("quizzes")
+}
+
+model QuizAttempt {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  quizId      String       @db.ObjectId
+  quiz        Quiz         @relation(fields: [quizId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  userId      String       @db.ObjectId
+  user        User         @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  answers     QuizAnswer[]
+  score       Float
+  maxScore    Float
+  durationSec Int?
+  completedAt DateTime     @default(now())
+
+  @@index([quizId])
+  @@index([userId, completedAt])
+  @@map("quiz_attempts")
+}
+
+model ConceptMastery {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String   @db.ObjectId
+  user       User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  /// normalized key (lowercase, trimmed)
+  concept    String
+  label      String
+  subject    String?
+  correct    Int      @default(0)
+  total      Int      @default(0)
+  lastSeenAt DateTime @default(now())
+
+  @@unique([userId, concept])
+  @@map("concept_mastery")
+}
+
+model Deck {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  ownerId     String   @db.ObjectId
+  owner       User     @relation(fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  title       String
+  description String?
+  subject     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  cards Card[]
+
+  @@index([ownerId])
+  @@map("decks")
+}
+
+/// Flashcard scheduled with FSRS (ts-fsrs).
+model Card {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  deckId        String    @db.ObjectId
+  deck          Deck      @relation(fields: [deckId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  ownerId       String    @db.ObjectId
+  owner         User      @relation(fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  front         String
+  back          String
+  hint          String?
+  due           DateTime  @default(now())
+  stability     Float     @default(0)
+  difficulty    Float     @default(0)
+  elapsedDays   Int       @default(0)
+  scheduledDays Int       @default(0)
+  learningSteps Int       @default(0)
+  reps          Int       @default(0)
+  lapses        Int       @default(0)
+  /// 0 New, 1 Learning, 2 Review, 3 Relearning
+  state         Int       @default(0)
+  lastReview    DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([ownerId, due])
+  @@index([deckId])
+  @@map("cards")
+}
+
+model Conversation {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String     @db.ObjectId
+  user        User       @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  classroomId String?    @db.ObjectId
+  classroom   Classroom? @relation(fields: [classroomId], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  title       String     @default("New chat")
+  /// explain | socratic | exam
+  mode        String     @default("explain")
+  /// Optional Study Studio source this chat is grounded on ("chat with your notes").
+  studySetId  String?    @db.ObjectId
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  messages Message[]
+
+  @@index([userId, updatedAt])
+  @@map("conversations")
+}
+
+model Message {
+  id             String       @id @default(auto()) @map("_id") @db.ObjectId
+  conversationId String       @db.ObjectId
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  /// user | model
+  role           String
+  content        String
+  attachments    FileRef[]
+  createdAt      DateTime     @default(now())
+
+  @@index([conversationId, createdAt])
+  @@map("messages")
+}
+
+model Roadmap {
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId
+  userId       String      @db.ObjectId
+  user         User        @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  goal         String
+  level        String
+  weeks        Int
+  hoursPerWeek Int
+  summary      String?
+  milestones   Milestone[]
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@index([userId, updatedAt])
+  @@map("roadmaps")
+}
+
+/// Output of Study Studio: a source turned into summary + concepts + deck + quiz.
+model StudySet {
+  id                String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String    @db.ObjectId
+  user              User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  title             String
+  /// text | file | material | topic
+  sourceType        String
+  sourceName        String?
+  /// Source text kept (capped) so the tutor can answer questions about it.
+  sourceText        String?
+  summary           String
+  keyPoints         String[]
+  concepts          Concept[]
+  questionsToPonder String[]
+  deckId            String?   @db.ObjectId
+  quizId            String?   @db.ObjectId
+  createdAt         DateTime  @default(now())
+
+  @@index([userId, createdAt])
+  @@map("study_sets")
+}
+
+/// Saved teacher tool outputs (lesson plans, question papers, answer-sheet checks).
+model Artifact {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  /// lesson_plan | question_paper | answer_check
+  type      String
+  title     String
+  data      Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, type, createdAt])
+  @@map("artifacts")
+}
+
+// ---------------------------------------------------------------------------
+// Engagement
+// ---------------------------------------------------------------------------
+
+model Notification {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  type      String
+  title     String
+  body      String?
+  link      String?
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([userId, read, createdAt])
+  @@map("notifications")
+}
+
+/// XP ledger. One row per rewarded action; streaks are derived from `day`.
+model Activity {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  /// quiz | review | submit | focus | tutor | studio | game | roadmap
+  type      String
+  xp        Int
+  /// YYYY-MM-DD in the user's timezone
+  day       String
+  minutes   Int?
+  meta      Json?
+  createdAt DateTime @default(now())
+
+  @@index([userId, day])
+  @@index([userId, createdAt])
+  @@map("activities")
+}
